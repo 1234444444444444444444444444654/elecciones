@@ -9,426 +9,279 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --gold: #C8A84B;
-      --gold-light: #E8CB7A;
-      --gold-dim: #8A6F2E;
-      --crimson: #9B1C1C;
-      --crimson-light: #C0392B;
-      --navy: #0D1B2A;
-      --navy-mid: #1A2D42;
-      --navy-light: #243B55;
-      --white: #F5F0E8;
-      --white-dim: #C8C0B0;
-      --gray: #8A8070;
-      --success: #2D6A4F;
-      --bg: #080E18;
+      --gold:#C8A84B; --gold-light:#E8CB7A; --gold-dim:#8A6F2E;
+      --crimson:#9B1C1C; --crimson-light:#C0392B;
+      --navy:#0D1B2A; --navy-mid:#1A2D42; --navy-light:#243B55;
+      --white:#F5F0E8; --white-dim:#C8C0B0; --gray:#8A8070;
+      --success:#2D6A4F; --bg:#080E18;
     }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--bg);color:var(--white);font-family:'Source Serif 4',serif;min-height:100vh;overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;z-index:0;
+      background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(200,168,75,.12) 0%,transparent 60%),
+        radial-gradient(ellipse 40% 40% at 80% 80%,rgba(155,28,28,.08) 0%,transparent 50%),
+        repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(200,168,75,.03) 59px,rgba(200,168,75,.03) 60px),
+        repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(200,168,75,.03) 59px,rgba(200,168,75,.03) 60px);
+      pointer-events:none;}
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* HEADER */
+    header{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:64px;background:rgba(8,14,24,.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(200,168,75,.2);}
+    .header-logos{display:flex;align-items:center;gap:12px;}
+    .header-logos img{height:38px;width:38px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(200,168,75,.3));}
+    .header-title{font-family:'Playfair Display',serif;font-size:.85rem;color:var(--gold);letter-spacing:.05em;line-height:1.2;}
+    .header-title small{display:block;font-size:.65rem;color:var(--gold-dim);font-family:'JetBrains Mono',monospace;letter-spacing:.12em;}
+    .btn-admin{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.1em;color:var(--gold-dim);background:transparent;border:1px solid rgba(200,168,75,.25);padding:6px 14px;cursor:pointer;transition:all .2s;text-transform:uppercase;}
+    .btn-admin:hover{color:var(--gold);border-color:var(--gold);background:rgba(200,168,75,.07);}
 
-    body {
-      background: var(--bg);
-      color: var(--white);
-      font-family: 'Source Serif 4', serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+    /* SCREENS */
+    .screen{position:relative;z-index:1;min-height:100vh;padding:80px 1.5rem 2rem;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+    .screen.hidden{display:none!important;}
 
-    body::before {
-      content: '';
-      position: fixed; inset: 0; z-index: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(200,168,75,0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 40% at 80% 80%, rgba(155,28,28,0.08) 0%, transparent 50%),
-        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(200,168,75,0.03) 59px, rgba(200,168,75,0.03) 60px),
-        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(200,168,75,0.03) 59px, rgba(200,168,75,0.03) 60px);
-      pointer-events: none;
-    }
+    /* CARD */
+    .card{background:rgba(13,27,42,.85);border:1px solid rgba(200,168,75,.2);border-top:3px solid var(--gold);padding:2.5rem 3rem;max-width:560px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,.6);animation:fadeUp .5s ease both;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .card-logo{text-align:center;margin-bottom:1.8rem;}
+    .card-logo img{height:60px;object-fit:contain;}
+    .card-logo .trio{display:flex;justify-content:center;gap:16px;margin-bottom:.8rem;}
+    .card-logo .trio img{height:44px;}
+    h1.card-title{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--gold);text-align:center;margin-bottom:.4rem;line-height:1.2;}
+    .card-subtitle{text-align:center;font-size:.82rem;color:var(--gray);font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;margin-bottom:2rem;}
 
-    /* ─── DEVTOOLS BLOCKER (solo PC) ─── */
-    @media (min-width: 769px) {
-      #devtools-blocker {
-        display: none;
-        position: fixed; inset: 0; z-index: 99999;
-        background: #080E18;
-        align-items: center; justify-content: center;
-        flex-direction: column; gap: 1rem;
-      }
-      #devtools-blocker.show { display: flex !important; }
-    }
-    @media (max-width: 768px) {
-      #devtools-blocker { display: none !important; }
-    }
+    /* FORM */
+    .form-group{margin-bottom:1.1rem;}
+    .form-group label{display:block;font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:5px;}
+    .form-group input,.form-group select{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(200,168,75,.2);color:var(--white);padding:10px 14px;font-family:'Source Serif 4',serif;font-size:.9rem;outline:none;transition:border-color .2s;}
+    .form-group input:focus,.form-group select:focus{border-color:var(--gold);background:rgba(200,168,75,.04);}
+    .form-group input::placeholder{color:var(--gray);}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
 
-    /* ─── HEADER ─── */
-    header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 2rem;
-      height: 64px;
-      background: rgba(8,14,24,0.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(200,168,75,0.2);
-    }
+    /* BUTTONS */
+    .btn-primary{width:100%;margin-top:1.5rem;background:var(--gold);color:var(--navy);border:none;padding:14px;font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;letter-spacing:.06em;cursor:pointer;transition:all .25s;text-transform:uppercase;}
+    .btn-primary:hover{background:var(--gold-light);transform:translateY(-1px);box-shadow:0 8px 24px rgba(200,168,75,.25);}
+    .btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+    .btn-discord{width:100%;margin-top:.5rem;background:#5865F2;color:white;border:none;padding:14px;font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:10px;}
+    .btn-discord:hover{background:#4752C4;transform:translateY(-1px);}
+    .btn-discord svg{width:22px;height:22px;fill:white;}
 
-    .header-logos { display: flex; align-items: center; gap: 12px; }
-    .header-logos img {
-      height: 38px; width: 38px; object-fit: contain;
-      filter: drop-shadow(0 0 6px rgba(200,168,75,0.3));
-    }
-    .header-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 0.85rem; color: var(--gold);
-      letter-spacing: 0.05em; line-height: 1.2;
-    }
-    .header-title small {
-      display: block; font-size: 0.65rem; color: var(--gold-dim);
-      font-family: 'JetBrains Mono', monospace; letter-spacing: 0.12em;
-    }
-    .header-right { display: flex; align-items: center; gap: 1rem; }
-    .btn-admin {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem; letter-spacing: 0.1em;
-      color: var(--gold-dim); background: transparent;
-      border: 1px solid rgba(200,168,75,0.25);
-      padding: 6px 14px; cursor: pointer;
-      transition: all 0.2s; text-transform: uppercase;
-    }
-    .btn-admin:hover { color: var(--gold); border-color: var(--gold); background: rgba(200,168,75,0.07); }
+    /* CHECKING */
+    .checking-wrap{text-align:center;padding:2rem 0;}
+    .checking-spinner{width:56px;height:56px;margin:0 auto 1.5rem;border:3px solid rgba(200,168,75,.15);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .checking-step{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--gold-dim);letter-spacing:.1em;min-height:1.4em;transition:opacity .3s;}
 
-    /* ─── SCREENS ─── */
-    .screen {
-      position: relative; z-index: 1;
-      min-height: 100vh;
-      padding: 80px 1.5rem 2rem;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-    }
-    .screen.hidden { display: none !important; }
+    /* SECRECY */
+    .secrecy-icon{text-align:center;font-size:3.5rem;margin-bottom:1.2rem;}
+    .secrecy-notice{background:rgba(155,28,28,.12);border:1px solid rgba(155,28,28,.3);border-left:4px solid var(--crimson);padding:1rem 1.2rem;margin:1.2rem 0;font-size:.88rem;color:var(--white-dim);line-height:1.6;}
+    .secrecy-notice strong{color:#E57373;}
 
-    /* ─── CARD ─── */
-    .card {
-      background: rgba(13,27,42,0.85);
-      border: 1px solid rgba(200,168,75,0.2);
-      border-top: 3px solid var(--gold);
-      padding: 2.5rem 3rem;
-      max-width: 560px; width: 100%;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 60px rgba(200,168,75,0.04);
-      animation: fadeUp 0.5s ease both;
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .card-logo { text-align: center; margin-bottom: 1.8rem; }
-    .card-logo img { height: 60px; object-fit: contain; }
-    .card-logo .trio { display: flex; justify-content: center; gap: 16px; margin-bottom: 0.8rem; }
-    .card-logo .trio img { height: 44px; }
-    h1.card-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.6rem; font-weight: 700;
-      color: var(--gold); text-align: center;
-      margin-bottom: 0.4rem; line-height: 1.2;
-    }
-    .card-subtitle {
-      text-align: center; font-size: 0.82rem; color: var(--gray);
-      font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2rem;
-    }
+    /* VOTE */
+    #screen-vote{padding:80px 1rem 3rem;min-height:100vh;}
+    .vote-header{text-align:center;margin-bottom:2.5rem;}
+    .vote-header h1{font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold);margin-bottom:.3rem;}
+    .vote-header p{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--gray);letter-spacing:.12em;text-transform:uppercase;}
+    .parties-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;max-width:1100px;margin:0 auto;}
+    .party-card{background:rgba(13,27,42,.9);border:1px solid rgba(200,168,75,.15);border-top:3px solid rgba(200,168,75,.3);padding:1.5rem;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;}
+    .party-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top,rgba(200,168,75,.06),transparent 70%);opacity:0;transition:opacity .3s;}
+    .party-card:hover{border-color:rgba(200,168,75,.5);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.4);}
+    .party-card:hover::before{opacity:1;}
+    .party-card:hover .party-select-btn{background:var(--gold);color:var(--navy);}
+    .party-logo-wrap{display:flex;justify-content:center;margin-bottom:1rem;height:72px;align-items:center;}
+    .party-logo-wrap img{max-height:68px;max-width:140px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));}
+    .party-name{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--gold);text-align:center;margin-bottom:.4rem;}
+    .party-candidate{font-size:.82rem;color:var(--white-dim);text-align:center;margin-bottom:.3rem;}
+    .party-candidate-discord{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--gray);text-align:center;margin-bottom:1rem;}
+    .party-select-btn{width:100%;background:rgba(200,168,75,.1);color:var(--gold);border:1px solid rgba(200,168,75,.3);padding:9px;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
 
-    /* ─── FORM ─── */
-    .form-group { margin-bottom: 1.1rem; }
-    .form-group label {
-      display: block; font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--gold-dim); margin-bottom: 5px;
-    }
-    .form-group input, .form-group select {
-      width: 100%; background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(200,168,75,0.2);
-      color: var(--white); padding: 10px 14px;
-      font-family: 'Source Serif 4', serif; font-size: 0.9rem;
-      outline: none; transition: border-color 0.2s;
-    }
-    .form-group input:focus, .form-group select:focus {
-      border-color: var(--gold); background: rgba(200,168,75,0.04);
-    }
-    .form-group input::placeholder { color: var(--gray); }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    /* CONFIRM MODAL */
+    .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;}
+    .modal-overlay.hidden{display:none!important;}
+    .modal-box{background:var(--navy-mid);border:1px solid rgba(200,168,75,.3);border-top:3px solid var(--gold);padding:2rem 2.5rem;max-width:440px;width:90%;animation:fadeUp .3s ease both;}
+    .modal-box h2{font-family:'Playfair Display',serif;color:var(--gold);font-size:1.4rem;margin-bottom:.5rem;text-align:center;}
+    .modal-box p{color:var(--white-dim);font-size:.9rem;text-align:center;margin-bottom:1.5rem;line-height:1.6;}
+    .modal-party-preview{display:flex;align-items:center;gap:1rem;background:rgba(200,168,75,.06);border:1px solid rgba(200,168,75,.15);padding:.8rem 1rem;margin-bottom:1.5rem;}
+    .modal-party-preview img{height:44px;object-fit:contain;}
+    .modal-party-preview .pname{font-family:'Playfair Display',serif;color:var(--gold);font-size:1rem;}
+    .modal-party-preview .pcand{font-size:.8rem;color:var(--white-dim);}
+    .modal-btns{display:flex;gap:.8rem;}
+    .modal-btns button{flex:1;padding:11px;font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;border:none;}
+    .btn-confirm{background:var(--gold);color:var(--navy);font-weight:700;}
+    .btn-confirm:hover{background:var(--gold-light);}
+    .btn-cancel-modal{background:rgba(255,255,255,.07);color:var(--white-dim);border:1px solid rgba(255,255,255,.1)!important;}
 
-    /* ─── BUTTONS ─── */
-    .btn-primary {
-      width: 100%; margin-top: 1.5rem;
-      background: var(--gold); color: var(--navy); border: none;
-      padding: 14px; font-family: 'Playfair Display', serif;
-      font-size: 1rem; font-weight: 700; letter-spacing: 0.06em;
-      cursor: pointer; transition: all 0.25s; text-transform: uppercase;
-    }
-    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(200,168,75,0.25); }
-    .btn-primary:active { transform: translateY(0); }
-    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    /* THANK YOU */
+    .thankyou-seal{text-align:center;margin-bottom:2rem;position:relative;}
+    .thankyou-seal img{height:90px;filter:drop-shadow(0 0 20px rgba(200,168,75,.3));}
+    .thankyou-seal::after{content:'✓';position:absolute;bottom:-8px;right:calc(50% - 52px);width:28px;height:28px;background:var(--success);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:bold;}
+    .receipt-box{background:rgba(200,168,75,.05);border:1px solid rgba(200,168,75,.2);padding:1.2rem 1.4rem;margin:1.5rem 0;}
+    .receipt-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px dashed rgba(200,168,75,.12);font-size:.85rem;}
+    .receipt-row:last-child{border-bottom:none;}
+    .receipt-row .rlabel{color:var(--gray);font-family:'JetBrains Mono',monospace;font-size:.72rem;text-transform:uppercase;}
+    .receipt-row .rvalue{color:var(--white);font-weight:600;}
+    .receipt-row .rvalue.gold{color:var(--gold);font-family:'Playfair Display',serif;}
 
-    .btn-discord {
-      width: 100%; margin-top: 0.5rem; background: #5865F2; color: white;
-      border: none; padding: 14px; font-family: 'Playfair Display', serif;
-      font-size: 1rem; font-weight: 700; letter-spacing: 0.04em;
-      cursor: pointer; transition: all 0.25s;
-      display: flex; align-items: center; justify-content: center; gap: 10px;
+    /* ══════════════════════════════════
+       ADMIN OVERLAY — estructura limpia
+       Solo UN panel visible a la vez
+    ══════════════════════════════════ */
+    #admin-overlay{
+      position:fixed;inset:0;z-index:300;
+      background:rgba(0,0,0,.88);
+      backdrop-filter:blur(8px);
+      display:none; /* oculto por defecto, JS lo muestra */
+      align-items:center;
+      justify-content:center;
     }
-    .btn-discord:hover { background: #4752C4; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(88,101,242,0.4); }
-    .btn-discord svg { width: 22px; height: 22px; fill: white; }
+    #admin-overlay.open{ display:flex; }
 
-    /* ─── CHECKING ─── */
-    .checking-wrap { text-align: center; padding: 2rem 0; }
-    .checking-spinner {
-      width: 56px; height: 56px; margin: 0 auto 1.5rem;
-      border: 3px solid rgba(200,168,75,0.15);
-      border-top-color: var(--gold); border-radius: 50%;
-      animation: spin 1s linear infinite;
+    /* login box */
+    #admin-login-wrap{
+      background:var(--navy);
+      border:1px solid rgba(200,168,75,.25);
+      border-top:4px solid var(--gold);
+      padding:2.5rem;
+      width:min(380px,94vw);
+      animation:fadeUp .3s ease both;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .checking-step {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
-      color: var(--gold-dim); letter-spacing: 0.1em; min-height: 1.4em; transition: opacity 0.3s;
+    /* panel principal */
+    #admin-main-wrap{
+      background:var(--navy);
+      border:1px solid rgba(200,168,75,.25);
+      border-top:4px solid var(--gold);
+      width:min(900px,96vw);
+      max-height:92vh;
+      overflow-y:auto;
+      animation:fadeUp .35s ease both;
+      display:none; /* oculto hasta login */
     }
+    #admin-main-wrap.open{ display:block; }
 
-    /* ─── SECRECY ─── */
-    .secrecy-icon { text-align: center; font-size: 3.5rem; margin-bottom: 1.2rem; }
-    .secrecy-notice {
-      background: rgba(155,28,28,0.12); border: 1px solid rgba(155,28,28,0.3);
-      border-left: 4px solid var(--crimson); padding: 1rem 1.2rem;
-      margin: 1.2rem 0; font-size: 0.88rem; color: var(--white-dim); line-height: 1.6;
-    }
-    .secrecy-notice strong { color: #E57373; }
+    .admin-header{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 1.8rem;border-bottom:1px solid rgba(200,168,75,.15);position:sticky;top:0;background:var(--navy);z-index:10;}
+    .admin-header h2{font-family:'Playfair Display',serif;color:var(--gold);font-size:1.3rem;}
+    .admin-close{background:none;border:none;color:var(--gray);font-size:1.5rem;cursor:pointer;padding:4px 8px;line-height:1;}
+    .admin-close:hover{color:#e57373;}
+    .admin-tabs{display:flex;border-bottom:1px solid rgba(200,168,75,.15);padding:0 1.8rem;}
+    .admin-tab{padding:12px 20px;background:none;border:none;font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;}
+    .admin-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+    .admin-content{padding:1.8rem;}
+    .admin-tab-pane{display:none;}
+    .admin-tab-pane.active{display:block;}
+    .election-status{display:flex;align-items:center;gap:1.5rem;background:rgba(200,168,75,.05);border:1px solid rgba(200,168,75,.15);padding:1.2rem 1.5rem;margin-bottom:1.5rem;}
+    .status-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+    .status-dot.on{background:#4CAF50;box-shadow:0 0 8px #4CAF50;animation:pulse 2s ease infinite;}
+    .status-dot.off{background:#f44336;}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+    .abtn{padding:10px 20px;font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;border:none;}
+    .abtn.green{background:#2D6A4F;color:#A8E6CF;} .abtn.green:hover{background:#1B4332;}
+    .abtn.red{background:#7B1A1A;color:#FFCDD2;} .abtn.red:hover{background:#5B0F0F;}
+    .abtn.blue{background:#1A3C5E;color:#90CAF9;} .abtn.blue:hover{background:#0D2240;}
 
-    /* ─── VOTE SCREEN ─── */
-    #screen-vote { padding: 80px 1rem 3rem; min-height: 100vh; }
-    .vote-header { text-align: center; margin-bottom: 2.5rem; }
-    .vote-header h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--gold); margin-bottom: 0.3rem; }
-    .vote-header p { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--gray); letter-spacing: 0.12em; text-transform: uppercase; }
-    .parties-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1.2rem; max-width: 1100px; margin: 0 auto;
-    }
-    .party-card {
-      background: rgba(13,27,42,0.9); border: 1px solid rgba(200,168,75,0.15);
-      border-top: 3px solid rgba(200,168,75,0.3); padding: 1.5rem;
-      cursor: pointer; transition: all 0.25s; position: relative; overflow: hidden;
-    }
-    .party-card::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at top, rgba(200,168,75,0.06), transparent 70%);
-      opacity: 0; transition: opacity 0.3s;
-    }
-    .party-card:hover { border-color: rgba(200,168,75,0.5); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
-    .party-card:hover::before { opacity: 1; }
-    .party-card:hover .party-select-btn { background: var(--gold); color: var(--navy); }
-    .party-logo-wrap { display: flex; justify-content: center; margin-bottom: 1rem; height: 72px; align-items: center; }
-    .party-logo-wrap img { max-height: 68px; max-width: 140px; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5)); }
-    .party-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--gold); text-align: center; margin-bottom: 0.4rem; }
-    .party-candidate { font-size: 0.82rem; color: var(--white-dim); text-align: center; margin-bottom: 0.3rem; }
-    .party-candidate-discord { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--gray); text-align: center; margin-bottom: 1rem; }
-    .party-select-btn {
-      width: 100%; background: rgba(200,168,75,0.1); color: var(--gold);
-      border: 1px solid rgba(200,168,75,0.3); padding: 9px;
-      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
-      letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: all 0.2s;
-    }
+    /* hemicycle */
+    #hemicycle-svg{width:100%;max-width:700px;margin:0 auto;display:block;}
+    .hemi-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:1rem;justify-content:center;}
+    .hemi-leg-item{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--white-dim);}
+    .hemi-leg-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+    .results-table{width:100%;border-collapse:collapse;margin-top:1rem;}
+    .results-table th{text-align:left;padding:8px 12px;font-family:'JetBrains Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold-dim);border-bottom:1px solid rgba(200,168,75,.2);}
+    .results-table td{padding:10px 12px;border-bottom:1px dashed rgba(255,255,255,.05);font-size:.87rem;}
+    .voters-table{width:100%;border-collapse:collapse;font-size:.8rem;}
+    .voters-table th{font-family:'JetBrains Mono',monospace;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gold-dim);padding:7px 10px;border-bottom:1px solid rgba(200,168,75,.2);text-align:left;}
+    .voters-table td{padding:7px 10px;border-bottom:1px dashed rgba(255,255,255,.04);color:var(--white-dim);}
+    .add-cand-form{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+    .add-cand-form .full{grid-column:1/-1;}
 
-    /* ─── CONFIRM MODAL ─── */
-    .modal-overlay {
-      position: fixed; inset: 0; z-index: 200;
-      background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .modal-overlay.hidden { display: none !important; }
-    .modal-box {
-      background: var(--navy-mid); border: 1px solid rgba(200,168,75,0.3);
-      border-top: 3px solid var(--gold); padding: 2rem 2.5rem;
-      max-width: 440px; width: 90%; animation: fadeUp 0.3s ease both;
-    }
-    .modal-box h2 { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1.4rem; margin-bottom: 0.5rem; text-align: center; }
-    .modal-box p { color: var(--white-dim); font-size: 0.9rem; text-align: center; margin-bottom: 1.5rem; line-height: 1.6; }
-    .modal-party-preview { display: flex; align-items: center; gap: 1rem; background: rgba(200,168,75,0.06); border: 1px solid rgba(200,168,75,0.15); padding: 0.8rem 1rem; margin-bottom: 1.5rem; }
-    .modal-party-preview img { height: 44px; object-fit: contain; }
-    .modal-party-preview .pname { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1rem; }
-    .modal-party-preview .pcand { font-size: 0.8rem; color: var(--white-dim); }
-    .modal-btns { display: flex; gap: 0.8rem; }
-    .modal-btns button { flex: 1; padding: 11px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; border: none; }
-    .btn-confirm { background: var(--gold); color: var(--navy); font-weight: 700; }
-    .btn-confirm:hover { background: var(--gold-light); }
+    /* alert */
+    .alert{padding:10px 14px;margin-bottom:1rem;font-size:.83rem;line-height:1.5;border-left:3px solid;}
+    .alert.error{background:rgba(155,28,28,.15);border-color:var(--crimson);color:#FFCDD2;}
+    .alert.success{background:rgba(45,106,79,.15);border-color:var(--success);color:#A8E6CF;}
+    .alert.info{background:rgba(200,168,75,.08);border-color:var(--gold-dim);color:var(--gold-light);}
+    .alert.hidden{display:none;}
 
-    /* ─── THANK YOU ─── */
-    .thankyou-seal { text-align: center; margin-bottom: 2rem; position: relative; }
-    .thankyou-seal img { height: 90px; filter: drop-shadow(0 0 20px rgba(200,168,75,0.3)); }
-    .thankyou-seal::after {
-      content: '✓'; position: absolute; bottom: -8px; right: calc(50% - 52px);
-      width: 28px; height: 28px; background: var(--success); color: white;
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem; font-weight: bold;
+    .powered-by{position:fixed;bottom:12px;right:16px;font-family:'JetBrains Mono',monospace;font-size:.65rem;color:rgba(200,168,75,.3);letter-spacing:.1em;z-index:50;}
+    .powered-by span{color:rgba(200,168,75,.6);}
+
+    /* DEVTOOLS BLOCKER — solo PC */
+    #dt-block{display:none;position:fixed;inset:0;z-index:99999;background:#080E18;flex-direction:column;align-items:center;justify-content:center;gap:1rem;}
+    @media(min-width:769px){#dt-block.show{display:flex!important;}}
+
+    /* mobile */
+    @media(max-width:600px){
+      .card{padding:1.8rem 1.4rem;}
+      .form-row{grid-template-columns:1fr;gap:0;}
+      .parties-grid{grid-template-columns:1fr 1fr;gap:.8rem;}
+      .add-cand-form{grid-template-columns:1fr;}
+      .add-cand-form .full{grid-column:1;}
     }
-    .receipt-box { background: rgba(200,168,75,0.05); border: 1px solid rgba(200,168,75,0.2); padding: 1.2rem 1.4rem; margin: 1.5rem 0; }
-    .receipt-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px dashed rgba(200,168,75,0.12); font-size: 0.85rem; }
-    .receipt-row:last-child { border-bottom: none; }
-    .receipt-row .label { color: var(--gray); font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; text-transform: uppercase; }
-    .receipt-row .value { color: var(--white); font-weight: 600; }
-    .receipt-row .value.gold { color: var(--gold); font-family: 'Playfair Display', serif; }
-
-    .powered-by { position: fixed; bottom: 12px; right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: rgba(200,168,75,0.3); letter-spacing: 0.1em; z-index: 50; }
-    .powered-by span { color: rgba(200,168,75,0.6); }
-
-    /* ─── ADMIN ─── */
-    .admin-overlay {
-      position: fixed; inset: 0; z-index: 300;
-      background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .admin-overlay.hidden { display: none !important; }
-    .admin-panel {
-      background: var(--navy); border: 1px solid rgba(200,168,75,0.25);
-      border-top: 4px solid var(--gold);
-      width: min(900px, 96vw); max-height: 92vh; overflow-y: auto;
-      animation: fadeUp 0.35s ease both;
-    }
-    .admin-header { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1.8rem; border-bottom: 1px solid rgba(200,168,75,0.15); position: sticky; top: 0; background: var(--navy); z-index: 10; }
-    .admin-header h2 { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1.3rem; }
-    .admin-close { background: none; border: none; color: var(--gray); font-size: 1.4rem; cursor: pointer; padding: 4px 8px; }
-    .admin-close:hover { color: var(--crimson-light); }
-    .admin-tabs { display: flex; border-bottom: 1px solid rgba(200,168,75,0.15); padding: 0 1.8rem; }
-    .admin-tab { padding: 12px 20px; background: none; border: none; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.2s; }
-    .admin-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
-    .admin-content { padding: 1.8rem; }
-    .admin-tab-pane { display: none; }
-    .admin-tab-pane.active { display: block; }
-    .election-status { display: flex; align-items: center; gap: 1.5rem; background: rgba(200,168,75,0.05); border: 1px solid rgba(200,168,75,0.15); padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; }
-    .status-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
-    .status-dot.active { background: #4CAF50; box-shadow: 0 0 8px #4CAF50; animation: pulse 2s ease infinite; }
-    .status-dot.stopped { background: #f44336; }
-    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.5} }
-    .admin-btn { padding: 10px 20px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; border: none; }
-    .admin-btn.green { background: #2D6A4F; color: #A8E6CF; }
-    .admin-btn.green:hover { background: #1B4332; }
-    .admin-btn.red { background: #7B1A1A; color: #FFCDD2; }
-    .admin-btn.red:hover { background: #5B0F0F; }
-    .admin-btn.blue { background: #1A3C5E; color: #90CAF9; }
-    .admin-btn.blue:hover { background: #0D2240; }
-    #hemicycle-svg { width: 100%; max-width: 700px; margin: 0 auto; display: block; }
-    .hemi-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1rem; justify-content: center; }
-    .hemi-leg-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--white-dim); }
-    .hemi-leg-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
-    .results-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-    .results-table th { text-align: left; padding: 8px 12px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold-dim); border-bottom: 1px solid rgba(200,168,75,0.2); }
-    .results-table td { padding: 10px 12px; border-bottom: 1px dashed rgba(255,255,255,0.05); font-size: 0.87rem; }
-    .results-table tr:hover td { background: rgba(200,168,75,0.04); }
-    .voters-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-    .voters-table th { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gold-dim); padding: 7px 10px; border-bottom: 1px solid rgba(200,168,75,0.2); text-align: left; }
-    .voters-table td { padding: 7px 10px; border-bottom: 1px dashed rgba(255,255,255,0.04); color: var(--white-dim); }
-    .add-candidate-form { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .add-candidate-form .full { grid-column: 1 / -1; }
-    .admin-login-box { padding: 2.5rem; max-width: 380px; width: 100%; }
-
-    /* ─── MOBILE ─── */
-    @media (max-width: 600px) {
-      .card { padding: 1.8rem 1.4rem; }
-      .form-row { grid-template-columns: 1fr; gap: 0; }
-      .parties-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-      .add-candidate-form { grid-template-columns: 1fr; }
-      .add-candidate-form .full { grid-column: 1; }
-    }
-    @media (max-width: 420px) { .parties-grid { grid-template-columns: 1fr; } }
-
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--navy); }
-    ::-webkit-scrollbar-thumb { background: var(--gold-dim); }
-
-    .alert { padding: 10px 14px; margin-bottom: 1rem; font-size: 0.83rem; line-height: 1.5; border-left: 3px solid; }
-    .alert.error { background: rgba(155,28,28,0.15); border-color: var(--crimson); color: #FFCDD2; }
-    .alert.success { background: rgba(45,106,79,0.15); border-color: var(--success); color: #A8E6CF; }
-    .alert.info { background: rgba(200,168,75,0.08); border-color: var(--gold-dim); color: var(--gold-light); }
-    .alert.hidden { display: none; }
+    @media(max-width:420px){.parties-grid{grid-template-columns:1fr;}}
+    ::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:var(--navy);} ::-webkit-scrollbar-thumb{background:var(--gold-dim);}
   </style>
 </head>
 <body>
 
-<!-- ═══ DEVTOOLS BLOCKER (solo PC) ═══ -->
-<div id="devtools-blocker">
+<!-- DEVTOOLS BLOCKER -->
+<div id="dt-block">
   <div style="text-align:center">
     <div style="font-size:3rem;margin-bottom:1rem">🔒</div>
-    <div style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);margin-bottom:0.5rem">Acceso no autorizado</div>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--gray)">Las herramientas de desarrollo están deshabilitadas<br/>en este sistema electoral.</div>
+    <div style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);margin-bottom:.5rem">Acceso no autorizado</div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--gray)">Las herramientas de desarrollo están deshabilitadas<br>en este sistema electoral.</div>
   </div>
 </div>
 
-<!-- ═══ HEADER ═══ -->
+<!-- HEADER -->
 <header>
   <div class="header-logos">
-    <img src="https://media.discordapp.net/attachments/1489954017495748649/1511073735753597209/q8svK8XAAAAABJRU5ErkJggg.png?ex=6a1f2094&is=6a1dcf14&hm=4b7c82786340a87c154f0d5926037fa38403f9414e2744c94161d6d4b6410e53&=&format=webp&quality=lossless" alt="Consejo Electoral" onerror="this.style.display='none'" />
-    <img src="https://images-ext-1.discordapp.net/external/MMA4mSHqF8wEowJ5Ui0mJ3ZIZ9weIGY-7G9XPTqZFDc/%3Fsize%3D2048/https/cdn.discordapp.com/icons/907442123123601408/33e3cc12e3359f9dd3d50f4a74fc9344.png?format=webp&quality=lossless" alt="Spanish Barcelona" onerror="this.style.display='none'" />
-    <img src="https://cromamedia.com/wp-content/uploads/2018/01/Logo_parlament.png" alt="Parlament" onerror="this.style.display='none'" />
-    <div class="header-title">
-      Consell Electoral de Catalunya
-      <small>Spanish Barcelona Roleplay</small>
-    </div>
+    <img src="https://media.discordapp.net/attachments/1489954017495748649/1511073735753597209/q8svK8XAAAAABJRU5ErkJggg.png?ex=6a1f2094&is=6a1dcf14&hm=4b7c82786340a87c154f0d5926037fa38403f9414e2744c94161d6d4b6410e53&=&format=webp&quality=lossless" onerror="this.style.display='none'" alt="" />
+    <img src="https://images-ext-1.discordapp.net/external/MMA4mSHqF8wEowJ5Ui0mJ3ZIZ9weIGY-7G9XPTqZFDc/%3Fsize%3D2048/https/cdn.discordapp.com/icons/907442123123601408/33e3cc12e3359f9dd3d50f4a74fc9344.png?format=webp&quality=lossless" onerror="this.style.display='none'" alt="" />
+    <img src="https://cromamedia.com/wp-content/uploads/2018/01/Logo_parlament.png" onerror="this.style.display='none'" alt="" />
+    <div class="header-title">Consell Electoral de Catalunya<small>Spanish Barcelona Roleplay</small></div>
   </div>
-  <div class="header-right">
+  <div>
     <button class="btn-admin" onclick="openAdmin()">⚙ Panel Admin</button>
   </div>
 </header>
 
-<!-- ═══ SCREEN: LOGIN ═══ -->
+<!-- LOGIN -->
 <div id="screen-login" class="screen">
   <div class="card">
     <div class="card-logo">
       <div class="trio">
-        <img src="https://media.discordapp.net/attachments/1489954017495748649/1511073735753597209/q8svK8XAAAAABJRU5ErkJggg.png?ex=6a1f2094&is=6a1dcf14&hm=4b7c82786340a87c154f0d5926037fa38403f9414e2744c94161d6d4b6410e53&=&format=webp&quality=lossless" alt="" onerror="this.style.display='none'" />
-        <img src="https://cromamedia.com/wp-content/uploads/2018/01/Logo_parlament.png" alt="" onerror="this.style.display='none'" />
-        <img src="https://images-ext-1.discordapp.net/external/MMA4mSHqF8wEowJ5Ui0mJ3ZIZ9weIGY-7G9XPTqZFDc/%3Fsize%3D2048/https/cdn.discordapp.com/icons/907442123123601408/33e3cc12e3359f9dd3d50f4a74fc9344.png?format=webp&quality=lossless" alt="" onerror="this.style.display='none'" />
+        <img src="https://media.discordapp.net/attachments/1489954017495748649/1511073735753597209/q8svK8XAAAAABJRU5ErkJggg.png?ex=6a1f2094&is=6a1dcf14&hm=4b7c82786340a87c154f0d5926037fa38403f9414e2744c94161d6d4b6410e53&=&format=webp&quality=lossless" onerror="this.style.display='none'" alt="" />
+        <img src="https://cromamedia.com/wp-content/uploads/2018/01/Logo_parlament.png" onerror="this.style.display='none'" alt="" />
+        <img src="https://images-ext-1.discordapp.net/external/MMA4mSHqF8wEowJ5Ui0mJ3ZIZ9weIGY-7G9XPTqZFDc/%3Fsize%3D2048/https/cdn.discordapp.com/icons/907442123123601408/33e3cc12e3359f9dd3d50f4a74fc9344.png?format=webp&quality=lossless" onerror="this.style.display='none'" alt="" />
       </div>
     </div>
     <h1 class="card-title">Eleccions al Parlament de Catalunya</h1>
     <p class="card-subtitle">Spanish Barcelona Roleplay · 2025</p>
     <div id="login-alert" class="alert info hidden"></div>
-    <p style="text-align:center;color:var(--white-dim);font-size:0.88rem;line-height:1.6;margin-bottom:1.5rem;">
+    <p style="text-align:center;color:var(--white-dim);font-size:.88rem;line-height:1.6;margin-bottom:1.5rem;">
       Para participar en las elecciones debes autenticarte con tu cuenta de Discord del servidor de <strong style="color:var(--gold)">Spanish Barcelona</strong>.
     </p>
     <button class="btn-discord" onclick="loginDiscord()">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.017.012.033.026.045a19.924 19.924 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.017.012.033.026.045a19.924 19.924 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
       Iniciar sesión con Discord
     </button>
-    <p style="text-align:center;margin-top:1rem;font-size:0.73rem;color:var(--gray);font-family:'JetBrains Mono',monospace;">
-      Solo ciudadanos registrados en el servidor pueden votar
-    </p>
+    <p style="text-align:center;margin-top:1rem;font-size:.73rem;color:var(--gray);font-family:'JetBrains Mono',monospace;">Solo ciudadanos registrados en el servidor pueden votar</p>
   </div>
 </div>
 
-<!-- ═══ SCREEN: REGISTER ═══ -->
-<!-- FIX #2: Eliminados DNI e IC, solo nombre+apellidos+fecha -->
+<!-- REGISTER — sin DNI ni IC -->
 <div id="screen-register" class="screen hidden">
   <div class="card" style="max-width:500px">
     <div class="card-logo">
-      <img src="https://media.discordapp.net/attachments/1489954017495748649/1511073735753597209/q8svK8XAAAAABJRU5ErkJggg.png?ex=6a1f2094&is=6a1dcf14&hm=4b7c82786340a87c154f0d5926037fa38403f9414e2744c94161d6d4b6410e53&=&format=webp&quality=lossless" alt="Consejo Electoral" onerror="this.style.display='none'" />
+      <img src="https://media.discordapp.net/attachments/1489954017495748649/1511073735753597209/q8svK8XAAAAABJRU5ErkJggg.png?ex=6a1f2094&is=6a1dcf14&hm=4b7c82786340a87c154f0d5926037fa38403f9414e2744c94161d6d4b6410e53&=&format=webp&quality=lossless" onerror="this.style.display='none'" alt="" />
     </div>
     <h1 class="card-title">Registro Electoral</h1>
     <p class="card-subtitle">Verificación de Identidad</p>
     <div id="reg-alert" class="alert error hidden"></div>
     <div class="form-row">
-      <div class="form-group">
-        <label>Nombre(s)</label>
-        <input type="text" id="reg-nombre" placeholder="María" autocomplete="given-name" />
-      </div>
-      <div class="form-group">
-        <label>Apellidos</label>
-        <input type="text" id="reg-apellidos" placeholder="García López" autocomplete="family-name" />
-      </div>
+      <div class="form-group"><label>Nombre(s)</label><input type="text" id="reg-nombre" placeholder="María" /></div>
+      <div class="form-group"><label>Apellidos</label><input type="text" id="reg-apellidos" placeholder="García López" /></div>
     </div>
-    <div class="form-group">
-      <label>Fecha de Nacimiento</label>
-      <input type="date" id="reg-fecha" />
-    </div>
+    <div class="form-group"><label>Fecha de Nacimiento</label><input type="date" id="reg-fecha" /></div>
     <button class="btn-primary" onclick="submitRegistration()">Enviar y Verificar Identidad</button>
   </div>
 </div>
 
-<!-- ═══ SCREEN: CHECKING ═══ -->
+<!-- CHECKING -->
 <div id="screen-checking" class="screen hidden">
   <div class="card" style="max-width:440px">
     <div class="checking-wrap">
@@ -439,7 +292,7 @@
   </div>
 </div>
 
-<!-- ═══ SCREEN: SECRECY ═══ -->
+<!-- SECRECY -->
 <div id="screen-secrecy" class="screen hidden">
   <div class="card" style="max-width:500px">
     <div class="secrecy-icon">🗳️</div>
@@ -449,19 +302,15 @@
       <strong>⚠ El voto es secreto e individual.</strong><br /><br />
       Según el Reglament del Consell Electoral de Catalunya (Spanish Barcelona Roleplay),
       <strong>queda estrictamente prohibido</strong> revelar, compartir, fotografiar o difundir
-      el sentido de su voto por cualquier medio — incluyendo Discord, capturas de pantalla,
-      voz o cualquier otra vía de comunicación.<br /><br />
-      La vulneración de esta norma puede conllevar la anulación de su voto y/o
-      sanciones según el Reglament Intern del Servidor.
+      el sentido de su voto por cualquier medio.<br /><br />
+      La vulneración puede conllevar la anulación del voto y/o sanciones según el Reglament Intern.
     </div>
-    <div id="election-closed-msg" class="alert error hidden">
-      Las elecciones no están activas en este momento.
-    </div>
+    <div id="election-closed-msg" class="alert error hidden">Las elecciones no están activas en este momento.</div>
     <button class="btn-primary" id="start-vote-btn" onclick="startVoting()">🗳 Iniciar Votación</button>
   </div>
 </div>
 
-<!-- ═══ SCREEN: VOTE ═══ -->
+<!-- VOTE -->
 <div id="screen-vote" class="screen hidden">
   <div class="vote-header">
     <h1>Elige tu Candidatura</h1>
@@ -470,60 +319,60 @@
   <div class="parties-grid" id="parties-grid"></div>
 </div>
 
-<!-- ═══ SCREEN: THANK YOU ═══ -->
+<!-- THANK YOU -->
 <div id="screen-thankyou" class="screen hidden">
   <div class="card" style="max-width:500px">
     <div class="thankyou-seal">
-      <img src="https://media.discordapp.net/attachments/1489954017495748649/1511073735753597209/q8svK8XAAAAABJRU5ErkJggg.png?ex=6a1f2094&is=6a1dcf14&hm=4b7c82786340a87c154f0d5926037fa38403f9414e2744c94161d6d4b6410e53&=&format=webp&quality=lossless" alt="" onerror="this.style.display='none'" />
+      <img src="https://media.discordapp.net/attachments/1489954017495748649/1511073735753597209/q8svK8XAAAAABJRU5ErkJggg.png?ex=6a1f2094&is=6a1dcf14&hm=4b7c82786340a87c154f0d5926037fa38403f9414e2744c94161d6d4b6410e53&=&format=webp&quality=lossless" onerror="this.style.display='none'" alt="" />
     </div>
-    <h1 class="card-title" style="color:#4CAF50;margin-top:0.5rem">✓ Voto Registrado</h1>
+    <h1 class="card-title" style="color:#4CAF50;margin-top:.5rem">✓ Voto Registrado</h1>
     <p class="card-subtitle">Gràcies per exercir el teu dret</p>
     <div class="receipt-box" id="vote-receipt"></div>
-    <div class="secrecy-notice" style="margin-top:0">
-      Recuerde que el voto es secreto. <strong>No comparta esta pantalla ni el sentido de su voto.</strong>
-    </div>
+    <div class="secrecy-notice" style="margin-top:0">Recuerde que el voto es secreto. <strong>No comparta esta pantalla.</strong></div>
   </div>
 </div>
 
-<!-- ═══ CONFIRM MODAL ═══ -->
+<!-- CONFIRM MODAL -->
 <div id="modal-confirm" class="modal-overlay hidden">
   <div class="modal-box">
     <h2>¿Confirmar Voto?</h2>
     <p>Está a punto de emitir su voto. Esta acción <strong>no se puede deshacer</strong>.</p>
     <div class="modal-party-preview" id="modal-preview"></div>
     <div class="modal-btns">
-      <button class="admin-btn" onclick="closeConfirm()" style="background:rgba(255,255,255,0.07);color:var(--white-dim)">Cancelar</button>
-      <button class="btn-confirm admin-btn" onclick="confirmVote()">Confirmar Voto</button>
+      <button class="btn-cancel-modal" onclick="closeConfirm()">Cancelar</button>
+      <button class="btn-confirm" onclick="confirmVote()">Confirmar Voto</button>
     </div>
   </div>
 </div>
 
-<!-- ═══ ADMIN PANEL ═══ -->
-<!-- FIX #4: admin-main empieza oculto siempre, se muestra solo tras login correcto -->
-<div id="admin-overlay" class="admin-overlay hidden">
-  <!-- Login box -->
-  <div id="admin-login" class="admin-panel admin-login-box">
+<!-- ═══════════════════════════════════════
+     ADMIN OVERLAY — estructura simplificada
+     Solo UN div visible a la vez
+════════════════════════════════════════ -->
+<div id="admin-overlay">
+
+  <!-- PASO 1: formulario de login -->
+  <div id="admin-login-wrap">
     <div style="text-align:center;margin-bottom:1.5rem">
-      <img src="https://media.discordapp.net/attachments/1489954017495748649/1511073735753597209/q8svK8XAAAAABJRU5ErkJggg.png?ex=6a1f2094&is=6a1dcf14&hm=4b7c82786340a87c154f0d5926037fa38403f9414e2744c94161d6d4b6410e53&=&format=webp&quality=lossless" alt="" style="height:50px" onerror="this.style.display='none'" />
+      <img src="https://media.discordapp.net/attachments/1489954017495748649/1511073735753597209/q8svK8XAAAAABJRU5ErkJggg.png?ex=6a1f2094&is=6a1dcf14&hm=4b7c82786340a87c154f0d5926037fa38403f9414e2744c94161d6d4b6410e53&=&format=webp&quality=lossless" style="height:50px" onerror="this.style.display='none'" alt="" />
     </div>
-    <h2 style="font-family:'Playfair Display',serif;color:var(--gold);text-align:center;margin-bottom:0.4rem">Panel de Administración</h2>
-    <p style="text-align:center;color:var(--gray);font-size:0.8rem;margin-bottom:1.5rem">Acceso restringido · Consell Electoral</p>
+    <h2 style="font-family:'Playfair Display',serif;color:var(--gold);text-align:center;margin-bottom:.4rem">Panel de Administración</h2>
+    <p style="text-align:center;color:var(--gray);font-size:.8rem;margin-bottom:1.5rem">Acceso restringido · Consell Electoral</p>
     <div id="admin-login-alert" class="alert error hidden"></div>
     <div class="form-group">
       <label>Usuario</label>
-      <!-- FIX #4: autocomplete=new-password evita que el browser rellene el campo -->
-      <input type="text" id="admin-user" placeholder="Usuario" autocomplete="new-password" />
+      <input type="text" id="admin-user" placeholder="Usuario" autocomplete="off" spellcheck="false" />
     </div>
     <div class="form-group">
       <label>Contraseña</label>
-      <input type="password" id="admin-pass" placeholder="••••••••" autocomplete="new-password" onkeypress="if(event.key==='Enter')adminLogin()" />
+      <input type="password" id="admin-pass" placeholder="••••••••" autocomplete="off" onkeydown="if(event.key==='Enter')doAdminLogin()" />
     </div>
-    <button class="btn-primary" onclick="adminLogin()">Acceder al Panel</button>
-    <button class="admin-btn" onclick="closeAdmin()" style="width:100%;margin-top:0.8rem;background:rgba(255,255,255,0.06);color:var(--gray)">Cancelar</button>
+    <button class="btn-primary" onclick="doAdminLogin()">Acceder al Panel</button>
+    <button class="abtn" onclick="closeAdmin()" style="width:100%;margin-top:.8rem;background:rgba(255,255,255,.06);color:var(--gray)">Cancelar</button>
   </div>
 
-  <!-- Main panel - SIEMPRE hidden por defecto -->
-  <div id="admin-main" class="admin-panel hidden">
+  <!-- PASO 2: panel principal (oculto hasta login) -->
+  <div id="admin-main-wrap">
     <div class="admin-header">
       <h2>⚙ Panel de Administración · Consell Electoral</h2>
       <button class="admin-close" onclick="closeAdmin()">✕</button>
@@ -536,44 +385,34 @@
     </div>
     <div class="admin-content">
 
-      <!-- TAB: ESTADO -->
       <div id="tab-estado" class="admin-tab-pane active">
         <div class="election-status">
-          <div id="admin-status-dot" class="status-dot stopped"></div>
+          <div id="a-status-dot" class="status-dot off"></div>
           <div>
-            <div style="color:var(--white);font-weight:600" id="admin-status-text">Elecciones: Inactivas</div>
-            <div style="font-size:0.8rem;color:var(--gray);margin-top:2px" id="admin-status-sub">Las votaciones están detenidas</div>
+            <div style="color:var(--white);font-weight:600" id="a-status-text">Elecciones: Inactivas</div>
+            <div style="font-size:.8rem;color:var(--gray);margin-top:2px" id="a-status-sub">Las votaciones están detenidas</div>
           </div>
         </div>
-        <div style="display:flex;gap:0.8rem;flex-wrap:wrap">
-          <button class="admin-btn green" onclick="setElectionStatus(true)">▶ Iniciar Elecciones</button>
-          <button class="admin-btn red" onclick="setElectionStatus(false)">■ Detener Elecciones</button>
-          <button class="admin-btn blue" onclick="loadAdminData()">↻ Actualizar Datos</button>
+        <div style="display:flex;gap:.8rem;flex-wrap:wrap">
+          <button class="abtn green" onclick="setElection(true)">▶ Iniciar Elecciones</button>
+          <button class="abtn red" onclick="setElection(false)">■ Detener Elecciones</button>
+          <button class="abtn blue" onclick="loadAdminData()">↻ Actualizar Datos</button>
         </div>
-        <div style="margin-top:1.5rem;padding:1rem;background:rgba(200,168,75,0.04);border:1px solid rgba(200,168,75,0.1)">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--gold-dim);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.8rem">Estadísticas en tiempo real</div>
+        <div style="margin-top:1.5rem;padding:1rem;background:rgba(200,168,75,.04);border:1px solid rgba(200,168,75,.1)">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--gold-dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.8rem">Estadísticas en tiempo real</div>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
-            <div style="text-align:center">
-              <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold)" id="stat-total">0</div>
-              <div style="font-size:0.72rem;color:var(--gray)">Votos totales</div>
-            </div>
-            <div style="text-align:center">
-              <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold)" id="stat-parties">0</div>
-              <div style="font-size:0.72rem;color:var(--gray)">Partidos</div>
-            </div>
-            <div style="text-align:center">
-              <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold)" id="stat-escanos">28</div>
-              <div style="font-size:0.72rem;color:var(--gray)">Escaños totales</div>
-            </div>
+            <div style="text-align:center"><div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold)" id="stat-total">0</div><div style="font-size:.72rem;color:var(--gray)">Votos totales</div></div>
+            <div style="text-align:center"><div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold)" id="stat-parties">0</div><div style="font-size:.72rem;color:var(--gray)">Partidos</div></div>
+            <div style="text-align:center"><div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold)">28</div><div style="font-size:.72rem;color:var(--gray)">Escaños totales</div></div>
           </div>
         </div>
       </div>
 
-      <!-- TAB: RESULTADOS -->
       <div id="tab-resultados" class="admin-tab-pane">
         <div style="text-align:center;margin-bottom:1.5rem">
           <svg id="hemicycle-svg" viewBox="0 0 700 380" xmlns="http://www.w3.org/2000/svg">
-            <text x="350" y="200" text-anchor="middle" fill="#8A8070" font-family="JetBrains Mono" font-size="14">Cargando hemiciclo...</text>
+            <rect width="700" height="380" fill="#0D1B2A" rx="8"/>
+            <text x="350" y="200" text-anchor="middle" fill="#8A8070" font-family="JetBrains Mono" font-size="13">Sin datos de votos</text>
           </svg>
           <div class="hemi-legend" id="hemi-legend"></div>
         </div>
@@ -583,27 +422,25 @@
         </table>
       </div>
 
-      <!-- TAB: CANDIDATOS -->
       <div id="tab-candidatos" class="admin-tab-pane">
-        <p style="color:var(--gray);font-size:0.85rem;margin-bottom:1.2rem">Añadir nuevo partido/candidato a las elecciones:</p>
-        <div class="add-candidate-form">
+        <p style="color:var(--gray);font-size:.85rem;margin-bottom:1.2rem">Añadir nuevo partido/candidato:</p>
+        <div class="add-cand-form">
           <div class="form-group"><label>Nombre del Partido</label><input type="text" id="cand-party" placeholder="Partido Ejemplo" /></div>
           <div class="form-group"><label>Nombre del Candidato</label><input type="text" id="cand-name" placeholder="Juan García" /></div>
           <div class="form-group"><label>Discord del Candidato</label><input type="text" id="cand-discord" placeholder="usuario_discord" /></div>
           <div class="form-group"><label>URL del Logo</label><input type="url" id="cand-logo" placeholder="https://..." /></div>
-          <div class="form-group"><label>Color del Partido (hex)</label><input type="color" id="cand-color" value="#C8A84B" style="height:42px;padding:4px" /></div>
-          <div class="form-group full" style="display:flex;gap:0.8rem;align-items:flex-end">
-            <button class="admin-btn green" style="padding:12px 24px" onclick="addCandidate()">+ Añadir Partido</button>
+          <div class="form-group"><label>Color (hex)</label><input type="color" id="cand-color" value="#C8A84B" style="height:42px;padding:4px" /></div>
+          <div class="form-group full" style="display:flex;align-items:flex-end">
+            <button class="abtn green" style="padding:12px 24px" onclick="addCandidate()">+ Añadir Partido</button>
           </div>
         </div>
         <div style="margin-top:1.5rem" id="candidates-list-admin"></div>
       </div>
 
-      <!-- TAB: VOTANTES -->
       <div id="tab-votantes" class="admin-tab-pane">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
-          <p style="color:var(--gray);font-size:0.85rem">Registro completo de votantes:</p>
-          <button class="admin-btn blue" onclick="exportVoters()">↓ Exportar CSV</button>
+          <p style="color:var(--gray);font-size:.85rem">Registro completo de votantes:</p>
+          <button class="abtn blue" onclick="exportVoters()">↓ Exportar CSV</button>
         </div>
         <div style="overflow-x:auto">
           <table class="voters-table">
@@ -620,679 +457,489 @@
 <div class="powered-by">powered by <span>qproz</span></div>
 
 <script>
-// ══════════════════════════════════════════════
-// ANTI-DEVTOOLS (solo PC, no móvil)
-// ══════════════════════════════════════════════
-(function() {
-  if (window.innerWidth <= 768) return; // Solo PC
-
-  const blocker = document.getElementById('devtools-blocker');
-
-  // Método 1: detectar tamaño de ventana vs screen
-  function checkDevTools() {
-    const threshold = 160;
-    const widthDiff = window.outerWidth - window.innerWidth;
-    const heightDiff = window.outerHeight - window.innerHeight;
-    if (widthDiff > threshold || heightDiff > threshold) {
-      blocker.classList.add('show');
-    } else {
-      blocker.classList.remove('show');
-    }
+// ══════════════════════
+// ANTI-DEVTOOLS (solo PC)
+// ══════════════════════
+(function(){
+  if(window.innerWidth<=768) return;
+  const bl=document.getElementById('dt-block');
+  function check(){
+    if(window.outerWidth-window.innerWidth>160||window.outerHeight-window.innerHeight>160) bl.classList.add('show');
+    else bl.classList.remove('show');
   }
-
-  // Método 2: bloquear F12, Ctrl+Shift+I/J/C/U
-  document.addEventListener('keydown', function(e) {
-    if (
-      e.key === 'F12' ||
-      (e.ctrlKey && e.shiftKey && ['I','i','J','j','C','c'].includes(e.key)) ||
-      (e.ctrlKey && ['U','u'].includes(e.key))
-    ) {
-      e.preventDefault();
-      e.stopPropagation();
-      return false;
+  document.addEventListener('keydown',function(e){
+    if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&'IJCijc'.includes(e.key))||(e.ctrlKey&&'Uu'.includes(e.key))){
+      e.preventDefault(); return false;
     }
   });
-
-  // Método 3: bloquear menú contextual (click derecho)
-  document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-    return false;
-  });
-
-  // Método 4: detectar devtools via console timing trick
-  let devtoolsOpen = false;
-  const element = new Image();
-  Object.defineProperty(element, 'id', {
-    get: function() {
-      devtoolsOpen = true;
-      blocker.classList.add('show');
-    }
-  });
-
-  // Método 5: polling de tamaño
-  setInterval(checkDevTools, 500);
-  window.addEventListener('resize', checkDevTools);
+  document.addEventListener('contextmenu',function(e){ e.preventDefault(); return false; });
+  setInterval(check,500);
+  window.addEventListener('resize',check);
 })();
 
-// ══════════════════════════════════════════════
-// CONFIG
-// ══════════════════════════════════════════════
+// ══════════════════════
+// CONFIG & STATE
+// ══════════════════════
 const DISCORD_CLIENT_ID = '1489699802462687374';
 const REDIRECT_URI = encodeURIComponent(window.location.origin + window.location.pathname);
 const API_BASE = '/api';
 
 const DEFAULT_PARTIES = [
-  { id:'ppc', name:'PPC', fullName:'Partido Popular de Catalunya', candidate:"N'golo Junqueras", discord:'porrashueleakk', logo:'https://tse1.mm.bing.net/th/id/OIP.DoSKt_oaKzQKsFnGxLW3FgHaHa?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3', color:'#0070C0' },
-  { id:'fejons', name:'FEJONS', fullName:'Fuerza Electoral de Jóvenes', candidate:'Alfonso Hernández Matamoros', discord:'maruja', logo:'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/beebaf4c-666a-47bc-9a26-d32daa10abb8/dfv2crz-a1e56455-f869-4a27-8ceb-db14bd0051aa.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2JlZWJhZjRjLTY2NmEtNDdiYy05YTI2LWQzMmRhYTEwYWJiOFwvZGZ2MmNyei1hMWU1NjQ1NS1mODY5LTRhMjctOGNlYi1kYjE0YmQwMDUxYWEucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Cd02QBDmNxwRtXJRA44T0LVLp_kQ0cfFHjL39GMlmA4', color:'#28A745' },
-  { id:'cup', name:'CUP', fullName:"Candidatura d'Unitat Popular", candidate:'Carlos Jiménez Villarejo', discord:'veuert', logo:'https://tse2.mm.bing.net/th/id/OIP.x2nx4eP1wuZqcde3a9tMcgHaHa?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3', color:'#DC1F26' },
-  { id:'pcc', name:'PCC', fullName:'Partit Comunista de Catalunya', candidate:'remax_dc', discord:'remax_dc', logo:'https://media.discordapp.net/attachments/1489954017495748649/1511070865826123936/image.png?ex=6a1f1de8&is=6a1dcc68&hm=37895c65f6fb6f7cb0dd717a0be21387285498b9cda163258ce66e3a235bbc29&=&format=webp&quality=lossless', color:'#B71C1C' },
-  { id:'vox', name:'VOX', fullName:'VOX', candidate:'Marco Volter', discord:'lukis._', logo:'https://tse1.mm.bing.net/th/id/OIP.nWbRVUu6vsfzKwNioPEeGQAAAA?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3', color:'#5DC837' },
-  { id:'junts', name:'JuntsXCat', fullName:'Junts per Catalunya', candidate:'Carles Bancs', discord:'sobejano_44288', logo:'https://static.wikia.nocookie.net/spe/images/3/30/Junts.png/revision/latest?cb=20230910162339&path-prefix=es', color:'#003DA5' },
-  { id:'salf', name:'SALF', fullName:'Solidaritat i Avenç per la Llibertat de Catalunya', candidate:'Jorge Manuel Rodríguez', discord:'foxigamerpro24', logo:'https://tse1.mm.bing.net/th/id/OIP.qxXw7-7UNsKfZRVIra_kAgHaHa?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3', color:'#FF6F00' }
+  {id:'ppc',name:'PPC',candidate:"N'golo Junqueras",discord:'porrashueleakk',logo:'https://tse1.mm.bing.net/th/id/OIP.DoSKt_oaKzQKsFnGxLW3FgHaHa?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3',color:'#0070C0'},
+  {id:'fejons',name:'FEJONS',candidate:'Alfonso Hernández Matamoros',discord:'maruja',logo:'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/beebaf4c-666a-47bc-9a26-d32daa10abb8/dfv2crz-a1e56455-f869-4a27-8ceb-db14bd0051aa.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2JlZWJhZjRjLTY2NmEtNDdiYy05YTI2LWQzMmRhYTEwYWJiOFwvZGZ2MmNyei1hMWU1NjQ1NS1mODY5LTRhMjctOGNlYi1kYjE0YmQwMDUxYWEucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Cd02QBDmNxwRtXJRA44T0LVLp_kQ0cfFHjL39GMlmA4',color:'#28A745'},
+  {id:'cup',name:'CUP',candidate:'Carlos Jiménez Villarejo',discord:'veuert',logo:'https://tse2.mm.bing.net/th/id/OIP.x2nx4eP1wuZqcde3a9tMcgHaHa?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3',color:'#DC1F26'},
+  {id:'pcc',name:'PCC',candidate:'remax_dc',discord:'remax_dc',logo:'https://media.discordapp.net/attachments/1489954017495748649/1511070865826123936/image.png?ex=6a1f1de8&is=6a1dcc68&hm=37895c65f6fb6f7cb0dd717a0be21387285498b9cda163258ce66e3a235bbc29&=&format=webp&quality=lossless',color:'#B71C1C'},
+  {id:'vox',name:'VOX',candidate:'Marco Volter',discord:'lukis._',logo:'https://tse1.mm.bing.net/th/id/OIP.nWbRVUu6vsfzKwNioPEeGQAAAA?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3',color:'#5DC837'},
+  {id:'junts',name:'JuntsXCat',candidate:'Carles Bancs',discord:'sobejano_44288',logo:'https://static.wikia.nocookie.net/spe/images/3/30/Junts.png/revision/latest?cb=20230910162339&path-prefix=es',color:'#003DA5'},
+  {id:'salf',name:'SALF',candidate:'Jorge Manuel Rodríguez',discord:'foxigamerpro24',logo:'https://tse1.mm.bing.net/th/id/OIP.qxXw7-7UNsKfZRVIra_kAgHaHa?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3',color:'#FF6F00'}
 ];
 
-// ══════════════════════════════════════════════
-// STATE
-// ══════════════════════════════════════════════
-let state = {
+const S = {
   discordUser: null,
   regData: null,
-  hasVoted: false,
   selectedParty: null,
-  electionActive: true,
-  parties: DEFAULT_PARTIES,   // se cargan desde backend al iniciar
+  electionActive: false,   // empieza inactivo; se consulta del backend
+  parties: [],
   votes: [],
   voters: [],
   adminLoggedIn: false
 };
 
-// ══════════════════════════════════════════════
-// INIT: cargar partidos desde backend/localStorage
-// ══════════════════════════════════════════════
-async function loadInitialParties() {
-  try {
-    const r = await fetch(`${API_BASE}/admin/parties`);
-    if (r.ok) {
-      const data = await r.json();
-      if (Array.isArray(data) && data.length > 0) {
-        state.parties = data;
+// ══════════════════════
+// HELPERS
+// ══════════════════════
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.add('hidden'));
+  document.getElementById('screen-'+id)?.classList.remove('hidden');
+}
+function alert_(id,type,msg){
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.className='alert '+type;
+  el.textContent=msg;
+}
+
+// ══════════════════════
+// INIT
+// ══════════════════════
+window.addEventListener('DOMContentLoaded', async ()=>{
+  await initParties();
+  const code=new URLSearchParams(window.location.search).get('code');
+  if(code) handleOAuth(code);
+  else showScreen('login');
+});
+
+async function initParties(){
+  try{
+    const r=await fetch(`${API_BASE}/admin/parties`);
+    if(r.ok){
+      const d=await r.json();
+      if(Array.isArray(d)&&d.length>0){ S.parties=d; return; }
+    }
+  }catch(e){}
+  const ls=localStorage.getItem('sb_parties');
+  S.parties = ls ? JSON.parse(ls) : DEFAULT_PARTIES;
+}
+
+// ══════════════════════
+// DISCORD
+// ══════════════════════
+function loginDiscord(){
+  const p=new URLSearchParams({client_id:DISCORD_CLIENT_ID,redirect_uri:decodeURIComponent(REDIRECT_URI),response_type:'code',scope:'identify'});
+  window.location.href=`https://discord.com/api/oauth2/authorize?${p}`;
+}
+
+async function handleOAuth(code){
+  alert_('login-alert','info','Autenticando con Discord...');
+  try{
+    const r=await fetch(`${API_BASE}/auth/discord`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,redirect_uri:decodeURIComponent(REDIRECT_URI)})});
+    if(!r.ok) throw new Error('backend');
+    const d=await r.json();
+    if(!d.id) throw new Error('no id');
+    S.discordUser=d;
+  }catch(e){
+    S.discordUser={id:'demo_'+Math.random().toString(36).slice(2),username:'ciudadano_demo'};
+    alert_('login-alert','info','⚠ Modo demo — backend no conectado');
+    await new Promise(r=>setTimeout(r,800));
+  }
+  window.history.replaceState({},'',window.location.pathname);
+  afterLogin();
+}
+
+async function afterLogin(){
+  // Comprobar doble voto — primero backend, luego localStorage
+  try{
+    const r=await fetch(`${API_BASE}/voters/check?discordId=${S.discordUser.id}`);
+    if(r.ok){
+      const d=await r.json();
+      if(d.hasVoted){
+        showThankYou(S.parties.find(p=>p.id===d.partyId)||{name:d.partyName,candidate:''},d);
         return;
       }
     }
-  } catch(e) {}
-  // Fallback: localStorage
-  const stored = localStorage.getItem('sb_parties');
-  if (stored) {
-    try { state.parties = JSON.parse(stored); } catch(e) {}
+  }catch(e){
+    const local=JSON.parse(localStorage.getItem('sb_voters')||'[]');
+    const ex=local.find(v=>v.discordId===S.discordUser.id);
+    if(ex){ showThankYou(S.parties.find(p=>p.id===ex.partyId)||{name:ex.partyName,candidate:''},ex); return; }
   }
-}
-
-function savePartiesLocal() {
-  localStorage.setItem('sb_parties', JSON.stringify(state.parties));
-}
-
-// ══════════════════════════════════════════════
-// SCREENS
-// ══════════════════════════════════════════════
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
-  document.getElementById('screen-' + id)?.classList.remove('hidden');
-}
-
-// ══════════════════════════════════════════════
-// DISCORD OAuth
-// ══════════════════════════════════════════════
-function loginDiscord() {
-  const params = new URLSearchParams({
-    client_id: DISCORD_CLIENT_ID,
-    redirect_uri: decodeURIComponent(REDIRECT_URI),
-    response_type: 'code',
-    scope: 'identify'
-  });
-  window.location.href = `https://discord.com/api/oauth2/authorize?${params}`;
-}
-
-async function handleOAuthCallback(code) {
-  showAlert('login-alert', 'info', 'Autenticando con Discord...');
-  try {
-    const resp = await fetch(`${API_BASE}/auth/discord`, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ code, redirect_uri: decodeURIComponent(REDIRECT_URI) })
-    });
-    if (!resp.ok) throw new Error('Backend no disponible');
-    const data = await resp.json();
-    if (!data.id) throw new Error('No se pudo obtener el usuario');
-    state.discordUser = data;
-    afterDiscordLogin();
-  } catch(e) {
-    state.discordUser = {
-      id: 'demo_' + Math.random().toString(36).slice(2),
-      username: 'ciudadano_demo',
-      discriminator: '0000',
-      avatar: null
-    };
-    showAlert('login-alert', 'info', '⚠ Modo demo activo (backend no conectado)');
-    setTimeout(afterDiscordLogin, 1000);
-  }
-}
-
-// FIX #1: comprobar voto en backend Y en localStorage
-async function afterDiscordLogin() {
-  window.history.replaceState({}, '', window.location.pathname);
-
-  // Comprobar en backend primero
-  try {
-    const r = await fetch(`${API_BASE}/voters/check?discordId=${state.discordUser.id}`);
-    if (r.ok) {
-      const data = await r.json();
-      if (data.hasVoted) {
-        state.hasVoted = true;
-        const party = state.parties.find(p => p.id === data.partyId) || { name: data.partyName };
-        showThankYou(party, data);
-        return;
-      }
+  // Comprobar si las elecciones están activas
+  try{
+    const r=await fetch(`${API_BASE}/admin/stats`);
+    if(r.ok){
+      const d=await r.json();
+      S.electionActive=d.electionActive??false;
     }
-  } catch(e) {
-    // Fallback: comprobar localStorage
-    const localVoters = JSON.parse(localStorage.getItem('sb_voters') || '[]');
-    const existing = localVoters.find(v => v.discordId === state.discordUser?.id);
-    if (existing) {
-      state.hasVoted = true;
-      const party = state.parties.find(p => p.id === existing.partyId);
-      showThankYou(party, existing);
-      return;
-    }
+  }catch(e){
+    S.electionActive=localStorage.getItem('sb_election_active')!=='0';
   }
-
   showScreen('register');
 }
 
-// ══════════════════════════════════════════════
-// REGISTRATION — FIX #2: sin DNI ni IC
-// ══════════════════════════════════════════════
-function submitRegistration() {
-  const nombre = document.getElementById('reg-nombre').value.trim();
-  const apellidos = document.getElementById('reg-apellidos').value.trim();
-  const fecha = document.getElementById('reg-fecha').value;
-
-  if (!nombre || !apellidos || !fecha) {
-    showAlert('reg-alert', 'error', 'Por favor, rellene todos los campos.');
-    return;
-  }
-
-  state.regData = { nombre, apellidos, fecha };
+// ══════════════════════
+// REGISTRATION
+// ══════════════════════
+function submitRegistration(){
+  const nombre=document.getElementById('reg-nombre').value.trim();
+  const apellidos=document.getElementById('reg-apellidos').value.trim();
+  const fecha=document.getElementById('reg-fecha').value;
+  if(!nombre||!apellidos||!fecha){ alert_('reg-alert','error','Por favor, rellene todos los campos.'); return; }
+  S.regData={nombre,apellidos,fecha};
   showScreen('checking');
-  runCheckingAnimation();
+  runChecking();
 }
 
-const CHECKING_STEPS = [
-  'Conectando con el censo electoral...',
-  'Verificando identidad en el Registro Civil...',
-  'Validando elegibilidad electoral...',
-  'Comprobando el padrón municipal...',
-  'Confirmando datos del votante...',
-  'Generando certificado de participación...'
-];
-
-function runCheckingAnimation() {
-  let i = 0;
-  const el = document.getElementById('checking-step');
-  const interval = setInterval(() => {
-    if (i < CHECKING_STEPS.length) {
-      el.style.opacity = 0;
-      setTimeout(() => { el.textContent = CHECKING_STEPS[i]; el.style.opacity = 1; }, 150);
+const STEPS=['Conectando con el censo electoral...','Verificando identidad en el Registro Civil...','Comprobando el padrón municipal...','Validando elegibilidad electoral...','Confirmando datos del votante...','Generando certificado de participación...'];
+function runChecking(){
+  let i=0;
+  const el=document.getElementById('checking-step');
+  const iv=setInterval(()=>{
+    if(i<STEPS.length){
+      el.style.opacity=0;
+      setTimeout(()=>{ el.textContent=STEPS[i]; el.style.opacity=1; },150);
       i++;
-    } else {
-      clearInterval(interval);
-      setTimeout(() => { showScreen('secrecy'); checkElectionStatus(); }, 600);
+    }else{
+      clearInterval(iv);
+      setTimeout(()=>{ showScreen('secrecy'); syncElectionStatus(); },600);
     }
-  }, 700);
+  },700);
 }
 
-function checkElectionStatus() {
-  const btn = document.getElementById('start-vote-btn');
-  const msg = document.getElementById('election-closed-msg');
-  if (!state.electionActive) {
-    btn.disabled = true;
-    msg.classList.remove('hidden');
-  } else {
-    btn.disabled = false;
-    msg.classList.add('hidden');
-  }
+function syncElectionStatus(){
+  const btn=document.getElementById('start-vote-btn');
+  const msg=document.getElementById('election-closed-msg');
+  if(!S.electionActive){ btn.disabled=true; msg.classList.remove('hidden'); }
+  else { btn.disabled=false; msg.classList.add('hidden'); }
 }
 
-// ══════════════════════════════════════════════
+// ══════════════════════
 // VOTING
-// ══════════════════════════════════════════════
-function startVoting() {
-  if (!state.electionActive) return;
+// ══════════════════════
+function startVoting(){
+  if(!S.electionActive) return;
   showScreen('vote');
   renderParties();
 }
 
-function renderParties() {
-  const grid = document.getElementById('parties-grid');
-  grid.innerHTML = state.parties.map(p => `
+function renderParties(){
+  document.getElementById('parties-grid').innerHTML=S.parties.map(p=>`
     <div class="party-card" onclick="selectParty('${p.id}')">
       <div class="party-logo-wrap">
-        <img src="${p.logo}" alt="${p.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22><rect fill=%22%231A2D42%22 width=%22100%22 height=%2260%22/><text x=%2250%22 y=%2238%22 text-anchor=%22middle%22 fill=%22%23C8A84B%22 font-size=%2218%22 font-family=%22serif%22>${p.name}</text></svg>'" />
+        <img src="${p.logo}" alt="${p.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22><rect fill=%22%231A2D42%22 width=%22100%22 height=%2260%22/><text x=%2250%22 y=%2238%22 text-anchor=%22middle%22 fill=%22%23C8A84B%22 font-size=%2218%22>${p.name}</text></svg>'" />
       </div>
       <div class="party-name">${p.name}</div>
       <div class="party-candidate">${p.candidate}</div>
       <div class="party-candidate-discord">@${p.discord}</div>
       <button class="party-select-btn">Votar esta candidatura →</button>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
-function selectParty(partyId) {
-  const party = state.parties.find(p => p.id === partyId);
-  if (!party) return;
-  state.selectedParty = party;
-  document.getElementById('modal-preview').innerHTML = `
-    <img src="${party.logo}" alt="${party.name}" onerror="this.style.display='none'" style="height:44px;object-fit:contain" />
-    <div>
-      <div class="pname">${party.name}</div>
-      <div class="pcand">${party.candidate} (@${party.discord})</div>
-    </div>
-  `;
+function selectParty(id){
+  const p=S.parties.find(x=>x.id===id); if(!p) return;
+  S.selectedParty=p;
+  document.getElementById('modal-preview').innerHTML=`
+    <img src="${p.logo}" onerror="this.style.display='none'" style="height:44px;object-fit:contain" alt="" />
+    <div><div class="pname">${p.name}</div><div class="pcand">${p.candidate} (@${p.discord})</div></div>`;
   document.getElementById('modal-confirm').classList.remove('hidden');
 }
+function closeConfirm(){ document.getElementById('modal-confirm').classList.add('hidden'); S.selectedParty=null; }
 
-function closeConfirm() {
+async function confirmVote(){
+  const p=S.selectedParty; if(!p) return;
   document.getElementById('modal-confirm').classList.add('hidden');
-  state.selectedParty = null;
-}
-
-async function confirmVote() {
-  const party = state.selectedParty;
-  if (!party) return;
-  document.getElementById('modal-confirm').classList.add('hidden');
-
-  const voteRecord = {
-    discordId: state.discordUser?.id || 'demo_user',
-    discordUsername: state.discordUser?.username || 'demo',
-    nombre: state.regData?.nombre || '',
-    apellidos: state.regData?.apellidos || '',
-    partyId: party.id,
-    partyName: party.name,
-    date: new Date().toISOString()
+  const rec={
+    discordId:S.discordUser?.id||'demo',
+    discordUsername:S.discordUser?.username||'demo',
+    nombre:S.regData?.nombre||'',
+    apellidos:S.regData?.apellidos||'',
+    partyId:p.id, partyName:p.name,
+    date:new Date().toISOString()
   };
-
-  // Guardar en localStorage como respaldo
-  const localVoters = JSON.parse(localStorage.getItem('sb_voters') || '[]');
-  localVoters.push(voteRecord);
-  localStorage.setItem('sb_voters', JSON.stringify(localVoters));
-
-  // Guardar en backend
-  try {
-    await fetch(`${API_BASE}/votes`, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(voteRecord)
-    });
-  } catch(e) {}
-
-  showThankYou(party, voteRecord);
+  // Guardar localmente
+  const lv=JSON.parse(localStorage.getItem('sb_voters')||'[]');
+  lv.push(rec); localStorage.setItem('sb_voters',JSON.stringify(lv));
+  // Backend
+  try{ await fetch(`${API_BASE}/votes`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(rec)}); }catch(e){}
+  showThankYou(p,rec);
 }
 
-function showThankYou(party, voteRecord) {
-  document.getElementById('vote-receipt').innerHTML = `
-    <div class="receipt-row"><span class="label">Partido votado</span><span class="value gold">${party?.name || voteRecord?.partyName || '—'}</span></div>
-    <div class="receipt-row"><span class="label">Candidato</span><span class="value">${party?.candidate || '—'}</span></div>
-    <div class="receipt-row"><span class="label">Votante</span><span class="value">${voteRecord?.nombre || ''} ${voteRecord?.apellidos || ''}</span></div>
-    <div class="receipt-row"><span class="label">Discord</span><span class="value">@${voteRecord?.discordUsername || state.discordUser?.username || '—'}</span></div>
-    <div class="receipt-row"><span class="label">Fecha y hora</span><span class="value">${new Date(voteRecord?.date || Date.now()).toLocaleString('es-ES')}</span></div>
-  `;
+function showThankYou(party,rec){
+  document.getElementById('vote-receipt').innerHTML=`
+    <div class="receipt-row"><span class="rlabel">Partido votado</span><span class="rvalue gold">${party?.name||rec?.partyName||'—'}</span></div>
+    <div class="receipt-row"><span class="rlabel">Candidato</span><span class="rvalue">${party?.candidate||'—'}</span></div>
+    <div class="receipt-row"><span class="rlabel">Votante</span><span class="rvalue">${rec?.nombre||''} ${rec?.apellidos||''}</span></div>
+    <div class="receipt-row"><span class="rlabel">Discord</span><span class="rvalue">@${rec?.discordUsername||'—'}</span></div>
+    <div class="receipt-row"><span class="rlabel">Fecha y hora</span><span class="rvalue">${new Date(rec?.date||Date.now()).toLocaleString('es-ES')}</span></div>`;
   showScreen('thankyou');
 }
 
-// ══════════════════════════════════════════════
-// ADMIN — FIX #4: lógica corregida de apertura
-// ══════════════════════════════════════════════
-function openAdmin() {
-  // Siempre resetear: ocultar main, mostrar login
-  document.getElementById('admin-main').classList.add('hidden');
-  document.getElementById('admin-login').classList.remove('hidden');
-  document.getElementById('admin-overlay').classList.remove('hidden');
+// ══════════════════════════════════════════
+// ADMIN — lógica completamente reescrita
+// Usamos display:none/flex en el overlay
+// y display:none/block en los dos paneles
+// ══════════════════════════════════════════
+function openAdmin(){
+  // Siempre empezar mostrando el login
+  document.getElementById('admin-login-wrap').style.display='block';
+  document.getElementById('admin-main-wrap').style.display='none';
+  document.getElementById('admin-main-wrap').classList.remove('open');
+  document.getElementById('admin-user').value='';
+  document.getElementById('admin-pass').value='';
+  document.getElementById('admin-login-alert').className='alert error hidden';
+  document.getElementById('admin-overlay').classList.add('open');
+  // Si ya estaba logueado, skip al panel
+  if(S.adminLoggedIn) showAdminMain();
+}
 
-  // Si ya estaba logueado, ir directo al panel
-  if (state.adminLoggedIn) {
-    document.getElementById('admin-login').classList.add('hidden');
-    document.getElementById('admin-main').classList.remove('hidden');
-    loadAdminData();
+function showAdminMain(){
+  document.getElementById('admin-login-wrap').style.display='none';
+  document.getElementById('admin-main-wrap').style.display='block';
+  document.getElementById('admin-main-wrap').classList.add('open');
+  loadAdminData();
+}
+
+function closeAdmin(){
+  document.getElementById('admin-overlay').classList.remove('open');
+}
+
+function doAdminLogin(){
+  const u=document.getElementById('admin-user').value.trim();
+  const p=document.getElementById('admin-pass').value;
+  if(u==='ENCARGADO'&&p==='X2X3X5POLITICA'){
+    S.adminLoggedIn=true;
+    showAdminMain();
+  }else{
+    alert_('admin-login-alert','error','Credenciales incorrectas.');
+    document.getElementById('admin-pass').value='';
   }
 }
 
-function closeAdmin() {
-  document.getElementById('admin-overlay').classList.add('hidden');
+function switchTab(name){
+  const tabs=['estado','resultados','candidatos','votantes'];
+  document.querySelectorAll('.admin-tab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===name));
+  document.querySelectorAll('.admin-tab-pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+name)?.classList.add('active');
+  if(name==='resultados') renderHemicycle();
+  if(name==='candidatos') renderAdminCandidates();
+  if(name==='votantes') renderVoters();
 }
 
-function adminLogin() {
-  const user = document.getElementById('admin-user').value;
-  const pass = document.getElementById('admin-pass').value;
-  if (user === 'ENCARGADO' && pass === 'X2X3X5POLITICA') {
-    state.adminLoggedIn = true;
-    document.getElementById('admin-login').classList.add('hidden');
-    document.getElementById('admin-main').classList.remove('hidden');
-    loadAdminData();
-  } else {
-    showAlert('admin-login-alert', 'error', 'Credenciales incorrectas.');
-  }
-}
-
-function switchTab(name) {
-  const tabs = ['estado','resultados','candidatos','votantes'];
-  document.querySelectorAll('.admin-tab').forEach((t, i) => {
-    t.classList.toggle('active', tabs[i] === name);
-  });
-  document.querySelectorAll('.admin-tab-pane').forEach(p => p.classList.remove('active'));
-  document.getElementById('tab-' + name)?.classList.add('active');
-  if (name === 'resultados') renderHemicycle();
-  if (name === 'candidatos') renderAdminCandidates();
-  if (name === 'votantes') renderVoters();
-}
-
-async function loadAdminData() {
-  try {
-    const r = await fetch(`${API_BASE}/admin/stats`);
-    if (r.ok) {
-      const data = await r.json();
-      if (data.votes) state.votes = data.votes;
-      if (data.voters) state.voters = data.voters;
-      if (typeof data.electionActive === 'boolean') state.electionActive = data.electionActive;
-      // FIX #3: cargar partidos desde backend
-      if (Array.isArray(data.parties) && data.parties.length > 0) {
-        state.parties = data.parties;
-        savePartiesLocal();
+async function loadAdminData(){
+  try{
+    const r=await fetch(`${API_BASE}/admin/stats`);
+    if(r.ok){
+      const d=await r.json();
+      if(Array.isArray(d.votes)) S.votes=d.votes;
+      if(Array.isArray(d.voters)) S.voters=d.voters;
+      if(typeof d.electionActive==='boolean') S.electionActive=d.electionActive;
+      if(Array.isArray(d.parties)&&d.parties.length>0){
+        S.parties=d.parties;
+        localStorage.setItem('sb_parties',JSON.stringify(S.parties));
       }
     }
-  } catch(e) {
-    // Fallback localStorage
-    const lv = localStorage.getItem('sb_voters');
-    if (lv) state.voters = JSON.parse(lv);
+  }catch(e){
+    S.voters=JSON.parse(localStorage.getItem('sb_voters')||'[]');
   }
   updateAdminStatus();
 }
 
-function updateAdminStatus() {
-  const dot = document.getElementById('admin-status-dot');
-  const text = document.getElementById('admin-status-text');
-  const sub = document.getElementById('admin-status-sub');
-  if (state.electionActive) {
-    dot.className = 'status-dot active';
-    text.textContent = 'Elecciones: Activas';
-    sub.textContent = 'Las votaciones están en curso';
-  } else {
-    dot.className = 'status-dot stopped';
-    text.textContent = 'Elecciones: Inactivas';
-    sub.textContent = 'Las votaciones están detenidas';
+function updateAdminStatus(){
+  const dot=document.getElementById('a-status-dot');
+  const txt=document.getElementById('a-status-text');
+  const sub=document.getElementById('a-status-sub');
+  if(S.electionActive){
+    dot.className='status-dot on';
+    txt.textContent='Elecciones: Activas';
+    sub.textContent='Las votaciones están en curso';
+  }else{
+    dot.className='status-dot off';
+    txt.textContent='Elecciones: Inactivas';
+    sub.textContent='Las votaciones están detenidas';
   }
-  document.getElementById('stat-total').textContent = state.votes.length || state.voters.length;
-  document.getElementById('stat-parties').textContent = state.parties.length;
+  document.getElementById('stat-total').textContent=S.votes.length||S.voters.length||0;
+  document.getElementById('stat-parties').textContent=S.parties.length;
+  syncElectionStatus();
 }
 
-async function setElectionStatus(active) {
-  state.electionActive = active;
+async function setElection(active){
+  S.electionActive=active;
+  localStorage.setItem('sb_election_active',active?'1':'0');
   updateAdminStatus();
-  try {
-    await fetch(`${API_BASE}/admin/election`, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ active })
-    });
-  } catch(e) {}
-  checkElectionStatus();
+  try{ await fetch(`${API_BASE}/admin/election`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({active})}); }catch(e){}
 }
 
-// ══════════════════════════════════════════════
-// HEMICYCLE — FIX #5: exactamente 28 asientos
-// ══════════════════════════════════════════════
-const TOTAL_SEATS = 28;
+// ══════════════════════
+// HEMICYCLE — exactamente 28 asientos
+// ══════════════════════
+const TOTAL_SEATS=28;
 
-function computeSeats() {
-  const counts = {};
-  state.votes.forEach(v => { counts[v.partyId] = (counts[v.partyId] || 0) + 1; });
-  const totalVotes = state.votes.length || 1;
-
-  const activeParties = state.parties.map(p => ({
-    ...p,
-    votes: counts[p.id] || 0,
-    color: p.color || '#888'
-  })).filter(p => p.votes > 0);
-
-  if (activeParties.length === 0) {
-    return state.parties.map(p => ({ ...p, votes: 0, seats: 0, pct: '0.0', color: p.color || '#888' }));
-  }
-
+function computeSeats(){
+  const counts={};
+  S.votes.forEach(v=>{ counts[v.partyId]=(counts[v.partyId]||0)+1; });
+  const totalVotes=S.votes.length||1;
+  const active=S.parties.map(p=>({...p,votes:counts[p.id]||0,color:p.color||'#888'})).filter(p=>p.votes>0);
+  if(!active.length) return S.parties.map(p=>({...p,votes:0,seats:0,pct:'0.0',color:p.color||'#888'}));
   // D'Hondt
-  const seats = {};
-  activeParties.forEach(p => seats[p.id] = 0);
-  for (let i = 0; i < TOTAL_SEATS; i++) {
-    let best = null, bestVal = -1;
-    activeParties.forEach(p => {
-      const val = p.votes / (seats[p.id] + 1);
-      if (val > bestVal) { bestVal = val; best = p.id; }
-    });
-    if (best) seats[best]++;
+  const seats={};
+  active.forEach(p=>seats[p.id]=0);
+  for(let i=0;i<TOTAL_SEATS;i++){
+    let best=null,bv=-1;
+    active.forEach(p=>{ const v=p.votes/(seats[p.id]+1); if(v>bv){bv=v;best=p.id;} });
+    if(best) seats[best]++;
   }
-
-  return state.parties.map(p => ({
-    ...p,
-    votes: counts[p.id] || 0,
-    seats: seats[p.id] || 0,
-    pct: ((counts[p.id] || 0) / totalVotes * 100).toFixed(1),
-    color: p.color || '#888'
+  return S.parties.map(p=>({
+    ...p,votes:counts[p.id]||0,seats:seats[p.id]||0,
+    pct:((counts[p.id]||0)/totalVotes*100).toFixed(1),
+    color:p.color||'#888'
   }));
 }
 
-function buildHemicycleSeats() {
-  // Genera exactamente TOTAL_SEATS posiciones distribuidas en filas de semicírculo
-  const cx = 350, cy = 330;
-  const rows = 4;
-  const radii = [100, 155, 210, 265];
-
-  // Primero calculamos cuántos caben en cada fila proporcionalmente al arco
-  const arcLengths = radii.map(r => Math.PI * r);
-  const totalArc = arcLengths.reduce((a, b) => a + b, 0);
-
-  // Distribuir los 28 asientos entre filas
-  let perRow = radii.map(r => Math.round(TOTAL_SEATS * (Math.PI * r) / totalArc));
-  // Ajustar para que sumen exactamente 28
-  let diff = TOTAL_SEATS - perRow.reduce((a, b) => a + b, 0);
-  perRow[perRow.length - 1] += diff;
-
-  const positions = [];
-  for (let row = 0; row < rows; row++) {
-    const r = radii[row];
-    const n = perRow[row];
-    for (let i = 0; i < n; i++) {
-      // Ángulo de 0° (izquierda) a 180° (derecha), distribuido uniformemente
-      const angle = Math.PI * (i / (n - 1 || 1));
-      // Empezamos desde la izquierda (π) hacia la derecha (2π → 0)
-      const a = Math.PI + angle;
-      positions.push({
-        x: cx + r * Math.cos(a),
-        y: cy + r * Math.sin(a)
-      });
+function buildSeats28(){
+  // 4 filas, distribuir exactamente 28 asientos proporcionales al arco
+  const cx=350,cy=330;
+  const radii=[100,155,210,265];
+  const arcs=radii.map(r=>Math.PI*r);
+  const total=arcs.reduce((a,b)=>a+b,0);
+  let per=radii.map(r=>Math.round(TOTAL_SEATS*Math.PI*r/total));
+  // corregir suma
+  let diff=TOTAL_SEATS-per.reduce((a,b)=>a+b,0);
+  per[per.length-1]+=diff;
+  const pos=[];
+  for(let row=0;row<4;row++){
+    const r=radii[row],n=per[row];
+    for(let i=0;i<n;i++){
+      const angle=Math.PI*(i/(n>1?n-1:1));
+      pos.push({x:cx+r*Math.cos(Math.PI+angle),y:cy+r*Math.sin(Math.PI+angle)});
     }
   }
-  return positions;
+  return pos; // siempre 28
 }
 
-function renderHemicycle() {
-  const data = computeSeats();
-  const svg = document.getElementById('hemicycle-svg');
-  const legend = document.getElementById('hemi-legend');
-  const tbody = document.getElementById('results-tbody');
-
-  const positions = buildHemicycleSeats(); // exactamente 28
-
-  // Construir array de colores para los 28 asientos
-  const seatColors = [];
-  const emptyColor = '#1A2D42';
-  const partsWithSeats = data.filter(p => p.seats > 0).sort((a,b) => b.seats - a.seats);
-  partsWithSeats.forEach(p => {
-    for (let i = 0; i < p.seats; i++) seatColors.push(p.color);
+function renderHemicycle(){
+  const data=computeSeats();
+  const svg=document.getElementById('hemicycle-svg');
+  const legend=document.getElementById('hemi-legend');
+  const tbody=document.getElementById('results-tbody');
+  const positions=buildSeats28(); // exactamente 28
+  // Array de colores para los 28
+  const colors=[];
+  const EMPTY='#1A2D42';
+  data.filter(p=>p.seats>0).sort((a,b)=>b.seats-a.seats).forEach(p=>{
+    for(let i=0;i<p.seats;i++) colors.push(p.color);
   });
-  // Rellenar vacíos hasta 28
-  while (seatColors.length < TOTAL_SEATS) seatColors.push(emptyColor);
-
-  let circles = '';
-  positions.forEach((pos, i) => {
-    const color = seatColors[i] || emptyColor;
-    const isEmpty = color === emptyColor;
-    circles += `<circle cx="${pos.x.toFixed(1)}" cy="${pos.y.toFixed(1)}" r="9" fill="${color}" stroke="${isEmpty ? '#243B55' : 'rgba(0,0,0,0.4)'}" stroke-width="1.5" opacity="${isEmpty ? '0.35' : '1'}" />`;
-  });
-
-  svg.innerHTML = `
-    <defs>
-      <radialGradient id="hg" cx="50%" cy="100%">
-        <stop offset="0%" stop-color="#1A2D42"/>
-        <stop offset="100%" stop-color="#080E18"/>
-      </radialGradient>
-    </defs>
+  while(colors.length<TOTAL_SEATS) colors.push(EMPTY);
+  // Generar SVG
+  const circles=positions.map((pos,i)=>{
+    const c=colors[i];
+    const empty=c===EMPTY;
+    return `<circle cx="${pos.x.toFixed(1)}" cy="${pos.y.toFixed(1)}" r="9" fill="${c}" stroke="${empty?'#243B55':'rgba(0,0,0,0.5)'}" stroke-width="1.5" opacity="${empty?0.3:1}"/>`;
+  }).join('');
+  svg.innerHTML=`
+    <defs><radialGradient id="hg" cx="50%" cy="100%"><stop offset="0%" stop-color="#1A2D42"/><stop offset="100%" stop-color="#080E18"/></radialGradient></defs>
     <rect width="700" height="380" fill="url(#hg)" rx="8"/>
     <text x="350" y="28" text-anchor="middle" fill="#C8A84B" font-family="Playfair Display,serif" font-size="15" font-weight="bold">Hemicicle · Parlament de Catalunya</text>
     <text x="350" y="46" text-anchor="middle" fill="#8A8070" font-family="JetBrains Mono,monospace" font-size="9">${TOTAL_SEATS} escons totals</text>
     ${circles}
-    <text x="350" y="374" text-anchor="middle" fill="#4A4030" font-family="JetBrains Mono,monospace" font-size="9">powered by qproz · Spanish Barcelona RP</text>
-  `;
-
-  legend.innerHTML = data.filter(p => p.seats > 0).map(p =>
-    `<div class="hemi-leg-item"><div class="hemi-leg-dot" style="background:${p.color}"></div>${p.name}: ${p.seats} esc.</div>`
-  ).join('');
-
-  tbody.innerHTML = data.sort((a,b) => b.votes - a.votes).map(p => `
+    <text x="350" y="374" text-anchor="middle" fill="#3A3020" font-family="JetBrains Mono,monospace" font-size="9">powered by qproz · Spanish Barcelona RP</text>`;
+  legend.innerHTML=data.filter(p=>p.seats>0).map(p=>`<div class="hemi-leg-item"><div class="hemi-leg-dot" style="background:${p.color}"></div>${p.name}: ${p.seats} esc.</div>`).join('');
+  tbody.innerHTML=data.sort((a,b)=>b.votes-a.votes).map(p=>`
     <tr>
       <td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${p.color};margin-right:6px;vertical-align:middle"></span>${p.name}</td>
       <td style="color:var(--white-dim)">${p.candidate}</td>
       <td style="color:var(--gold);font-weight:600">${p.votes}</td>
       <td style="color:var(--white-dim)">${p.pct}%</td>
       <td style="color:var(--gold-light);font-family:'JetBrains Mono',monospace;font-weight:600">${p.seats}</td>
-    </tr>
-  `).join('');
+    </tr>`).join('');
 }
 
-// FIX #3: añadir candidato guarda en backend Y localStorage
-async function addCandidate() {
-  const party = document.getElementById('cand-party').value.trim();
-  const name = document.getElementById('cand-name').value.trim();
-  const discord = document.getElementById('cand-discord').value.trim();
-  const logo = document.getElementById('cand-logo').value.trim();
-  const color = document.getElementById('cand-color').value;
-  if (!party || !name || !discord) { alert('Rellena nombre del partido, candidato y discord'); return; }
-
-  const newParty = {
-    id: party.toLowerCase().replace(/\s+/g,'_') + '_' + Date.now(),
-    name: party, candidate: name, discord, logo, color
-  };
-  state.parties.push(newParty);
-  savePartiesLocal();
+// ══════════════════════
+// CANDIDATOS
+// ══════════════════════
+async function addCandidate(){
+  const party=document.getElementById('cand-party').value.trim();
+  const name=document.getElementById('cand-name').value.trim();
+  const discord=document.getElementById('cand-discord').value.trim();
+  const logo=document.getElementById('cand-logo').value.trim();
+  const color=document.getElementById('cand-color').value;
+  if(!party||!name||!discord){ alert('Rellena nombre del partido, candidato y discord'); return; }
+  const np={id:party.toLowerCase().replace(/\s+/g,'_')+'_'+Date.now(),name:party,candidate:name,discord,logo,color};
+  S.parties.push(np);
+  localStorage.setItem('sb_parties',JSON.stringify(S.parties));
   renderAdminCandidates();
-
-  try {
-    await fetch(`${API_BASE}/admin/parties`, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(newParty)
-    });
-  } catch(e) {}
-
-  ['cand-party','cand-name','cand-discord','cand-logo'].forEach(id => document.getElementById(id).value = '');
+  try{ await fetch(`${API_BASE}/admin/parties`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(np)}); }catch(e){}
+  ['cand-party','cand-name','cand-discord','cand-logo'].forEach(id=>document.getElementById(id).value='');
 }
 
-// FIX #3: eliminar candidato guarda en backend Y localStorage
-async function removeParty(id) {
-  if (!confirm('¿Eliminar este partido?')) return;
-  state.parties = state.parties.filter(p => p.id !== id);
-  savePartiesLocal();
+async function removeParty(id){
+  if(!confirm('¿Eliminar este partido?')) return;
+  S.parties=S.parties.filter(p=>p.id!==id);
+  localStorage.setItem('sb_parties',JSON.stringify(S.parties));
   renderAdminCandidates();
-
-  try {
-    await fetch(`${API_BASE}/admin/parties/${id}`, { method: 'DELETE' });
-  } catch(e) {}
+  try{ await fetch(`${API_BASE}/admin/parties/${id}`,{method:'DELETE'}); }catch(e){}
 }
 
-function renderAdminCandidates() {
-  const el = document.getElementById('candidates-list-admin');
-  el.innerHTML = `
-    <div style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--gold-dim);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.8rem">Partidos registrados (${state.parties.length})</div>
-    <div style="display:flex;flex-direction:column;gap:0.5rem">
-      ${state.parties.map(p => `
-        <div style="display:flex;align-items:center;gap:1rem;padding:0.7rem 1rem;background:rgba(200,168,75,0.04);border:1px solid rgba(200,168,75,0.1)">
-          <img src="${p.logo}" style="height:32px;object-fit:contain" onerror="this.style.display='none'" />
-          <div style="flex:1">
+function renderAdminCandidates(){
+  document.getElementById('candidates-list-admin').innerHTML=`
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--gold-dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.8rem">Partidos registrados (${S.parties.length})</div>
+    <div style="display:flex;flex-direction:column;gap:.5rem">
+      ${S.parties.map(p=>`
+        <div style="display:flex;align-items:center;gap:1rem;padding:.7rem 1rem;background:rgba(200,168,75,.04);border:1px solid rgba(200,168,75,.1)">
+          <img src="${p.logo}" style="height:32px;object-fit:contain;flex-shrink:0" onerror="this.style.display='none'" alt="" />
+          <div style="flex:1;min-width:0">
             <div style="color:var(--gold);font-family:'Playfair Display',serif">${p.name}</div>
-            <div style="font-size:0.78rem;color:var(--gray)">${p.candidate} (@${p.discord})</div>
+            <div style="font-size:.78rem;color:var(--gray)">${p.candidate} (@${p.discord})</div>
           </div>
-          <div style="width:14px;height:14px;border-radius:50%;background:${p.color || '#999'};flex-shrink:0"></div>
-          <button class="admin-btn red" style="padding:5px 10px;font-size:0.65rem" onclick="removeParty('${p.id}')">✕</button>
-        </div>
-      `).join('')}
-    </div>
-  `;
+          <div style="width:14px;height:14px;border-radius:50%;background:${p.color||'#999'};flex-shrink:0"></div>
+          <button class="abtn red" style="padding:5px 10px;font-size:.65rem;flex-shrink:0" onclick="removeParty('${p.id}')">✕</button>
+        </div>`).join('')}
+    </div>`;
 }
 
-function renderVoters() {
-  const tbody = document.getElementById('voters-tbody');
-  const list = state.voters.length > 0 ? state.voters : JSON.parse(localStorage.getItem('sb_voters') || '[]');
-  tbody.innerHTML = list.length === 0
-    ? '<tr><td colspan="4" style="text-align:center;color:var(--gray);padding:1.5rem">No hay votantes registrados</td></tr>'
-    : list.map(v => `
-      <tr>
-        <td>@${v.discordUsername || '—'}</td>
-        <td>${v.nombre || ''} ${v.apellidos || ''}</td>
-        <td style="color:var(--gold)">${v.partyName || v.partyId || '—'}</td>
-        <td style="font-size:0.75rem;color:var(--gray)">${v.date ? new Date(v.date).toLocaleString('es-ES') : '—'}</td>
-      </tr>
-    `).join('');
+function renderVoters(){
+  const list=S.voters.length?S.voters:JSON.parse(localStorage.getItem('sb_voters')||'[]');
+  document.getElementById('voters-tbody').innerHTML=list.length===0
+    ?'<tr><td colspan="4" style="text-align:center;color:var(--gray);padding:1.5rem">No hay votantes registrados</td></tr>'
+    :list.map(v=>`<tr>
+        <td>@${v.discordUsername||'—'}</td>
+        <td>${v.nombre||''} ${v.apellidos||''}</td>
+        <td style="color:var(--gold)">${v.partyName||v.partyId||'—'}</td>
+        <td style="font-size:.75rem;color:var(--gray)">${v.date?new Date(v.date).toLocaleString('es-ES'):'—'}</td>
+      </tr>`).join('');
 }
 
-function exportVoters() {
-  const list = state.voters.length > 0 ? state.voters : JSON.parse(localStorage.getItem('sb_voters') || '[]');
-  const headers = ['Discord','Nombre','Apellidos','Partido','Fecha'];
-  const rows = list.map(v => [v.discordUsername, v.nombre, v.apellidos, v.partyName, v.date].map(x => `"${x || ''}"`).join(','));
-  const csv = [headers.join(','), ...rows].join('\n');
-  const blob = new Blob([csv], {type:'text/csv'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `votantes_${new Date().toISOString().slice(0,10)}.csv`;
+function exportVoters(){
+  const list=S.voters.length?S.voters:JSON.parse(localStorage.getItem('sb_voters')||'[]');
+  const csv=['Discord,Nombre,Apellidos,Partido,Fecha',...list.map(v=>[v.discordUsername,v.nombre,v.apellidos,v.partyName,v.date].map(x=>`"${x||''}"`).join(','))].join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download=`votantes_${new Date().toISOString().slice(0,10)}.csv`;
   a.click();
 }
 
-// ══════════════════════════════════════════════
-// HELPERS
-// ══════════════════════════════════════════════
-function showAlert(id, type, msg) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.className = `alert ${type}`;
-  el.textContent = msg;
-}
-
-// ══════════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════════
-window.addEventListener('DOMContentLoaded', async () => {
-  await loadInitialParties();
-
-  const params = new URLSearchParams(window.location.search);
-  const code = params.get('code');
-  if (code) {
-    handleOAuthCallback(code);
-  } else {
-    showScreen('login');
-  }
-});
-
-document.getElementById('admin-overlay').addEventListener('click', function(e) {
-  if (e.target === this) closeAdmin();
-});
-document.getElementById('modal-confirm').addEventListener('click', function(e) {
-  if (e.target === this) closeConfirm();
-});
+// ══════════════════════
+// CLICK OUTSIDE
+// ══════════════════════
+document.getElementById('admin-overlay').addEventListener('click',function(e){ if(e.target===this) closeAdmin(); });
+document.getElementById('modal-confirm').addEventListener('click',function(e){ if(e.target===this) closeConfirm(); });
 </script>
 </body>
 </html>
