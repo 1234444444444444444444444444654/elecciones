@@ -566,33 +566,48 @@ async function handleOAuth(code){
   afterLogin();
 }
 
+// Reemplaza la función afterLogin() completa por esta:
 async function afterLogin(){
-  // Comprobar doble voto — primero backend, luego localStorage
-  try{
-    const r=await fetch(`${API_BASE}/voters/check?discordId=${S.discordUser.id}`);
+  // Comprobar doble voto
+  let hasVoted = false;
+  let voteData = null;
+
+  try {
+    const r = await fetch(`${API_BASE}/voters/check?discordId=${S.discordUser.id}`);
     if(r.ok){
-      const d=await r.json();
+      const d = await r.json();
       if(d.hasVoted){
-        showThankYou(S.parties.find(p=>p.id===d.partyId)||{name:d.partyName,candidate:''},d);
-        return;
+        hasVoted = true;
+        voteData = d;
       }
     }
-  }catch(e){
-    const local=JSON.parse(localStorage.getItem('sb_voters')||'[]');
-    const ex=local.find(v=>v.discordId===S.discordUser.id);
-    if(ex){ showThankYou(S.parties.find(p=>p.id===ex.partyId)||{name:ex.partyName,candidate:''},ex); return; }
+  } catch(e) {
+    console.warn("Backend no disponible, usando fallback local");
   }
-  // Comprobar si las elecciones están activas
+
+  if(hasVoted){
+    showThankYou(S.parties.find(p=>p.id===voteData.partyId)||{name:voteData.partyName}, voteData);
+    return;
+  }
+
+  // === Cargar estado de elecciones SIEMPRE del servidor ===
   try{
-    const r=await fetch(`${API_BASE}/admin/stats`);
+    const r = await fetch(`${API_BASE}/admin/stats`);
     if(r.ok){
-      const d=await r.json();
-      S.electionActive=d.electionActive??false;
+      const d = await r.json();
+      S.electionActive = d.electionActive ?? false;
+      if(Array.isArray(d.parties) && d.parties.length > 0){
+        S.parties = d.parties;
+      }
     }
-  }catch(e){
-    S.electionActive=localStorage.getItem('sb_election_active')!=='0';
+  } catch(e){
+    console.warn("No se pudo cargar estado del servidor");
+    // Solo usar localStorage como último recurso
+    S.electionActive = localStorage.getItem('sb_election_active') === '1';
   }
+
   showScreen('register');
+  syncElectionStatus();
 }
 
 // ══════════════════════
@@ -745,19 +760,19 @@ function switchTab(name){
 
 async function loadAdminData(){
   try{
-    const r=await fetch(`${API_BASE}/admin/stats`);
+    const r = await fetch(`${API_BASE}/admin/stats`);
     if(r.ok){
-      const d=await r.json();
-      if(Array.isArray(d.votes)) S.votes=d.votes;
-      if(Array.isArray(d.voters)) S.voters=d.voters;
-      if(typeof d.electionActive==='boolean') S.electionActive=d.electionActive;
-      if(Array.isArray(d.parties)&&d.parties.length>0){
-        S.parties=d.parties;
-        localStorage.setItem('sb_parties',JSON.stringify(S.parties));
+      const d = await r.json();
+      S.votes = Array.isArray(d.votes) ? d.votes : [];
+      S.voters = Array.isArray(d.voters) ? d.voters : [];
+      if(typeof d.electionActive === 'boolean') S.electionActive = d.electionActive;
+      if(Array.isArray(d.parties) && d.parties.length > 0){
+        S.parties = d.parties;
+        localStorage.setItem('sb_parties', JSON.stringify(S.parties));
       }
     }
-  }catch(e){
-    S.voters=JSON.parse(localStorage.getItem('sb_voters')||'[]');
+  } catch(e){
+    console.error("Error cargando datos admin:", e);
   }
   updateAdminStatus();
 }
@@ -781,10 +796,24 @@ function updateAdminStatus(){
 }
 
 async function setElection(active){
-  S.electionActive=active;
-  localStorage.setItem('sb_election_active',active?'1':'0');
+  S.electionActive = active;
+  
+  // Actualizar visual inmediatamente
   updateAdminStatus();
-  try{ await fetch(`${API_BASE}/admin/election`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({active})}); }catch(e){}
+  syncElectionStatus();
+
+  // Intentar guardar en servidor
+  try{
+    const r = await fetch(`${API_BASE}/admin/election`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({active})
+    });
+    if(!r.ok) throw new Error();
+  } catch(e){
+    console.warn("No se pudo actualizar en servidor");
+    localStorage.setItem('sb_election_active', active ? '1' : '0');
+  }
 }
 
 // ══════════════════════
