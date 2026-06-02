@@ -393,9 +393,16 @@
 <div class="powered-by">powered by <span>qproz</span></div>
 
 <script>
-// ═══════════════════════════════════════════════════
-// CONFIG
-// ═══════════════════════════════════════════════════
+// ===== ANTI-INSPECT =====
+  (function(){
+  document.addEventListener('keydown',function(e){
+    if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&['I','J','C','U'].includes(e.key))||(e.ctrlKey&&e.key==='U')){e.preventDefault();e.stopPropagation();return false;}
+  },true);
+  document.addEventListener('contextmenu',function(e){e.preventDefault();return false;});
+  document.addEventListener('selectstart',function(e){e.preventDefault();});
+})();
+  
+  // ===== ANTI-INSPECT =====
 const DISCORD_CLIENT_ID = '1489699802462687374';
 const REDIRECT_URI      = window.location.origin + window.location.pathname;
 // En producción con GitHub Pages + backend Railway/Render, cambia esta URL:
