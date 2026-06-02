@@ -111,7 +111,6 @@
     /* THANK YOU */
     .thankyou-seal{text-align:center;margin-bottom:2rem;position:relative;}
     .thankyou-seal img{height:90px;filter:drop-shadow(0 0 20px rgba(200,168,75,.3));}
-    .thankyou-seal::after{content:'✓';position:absolute;bottom:-8px;right:calc(50% - 52px);width:28px;height:28px;background:var(--success);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:bold;}
     .receipt-box{background:rgba(200,168,75,.05);border:1px solid rgba(200,168,75,.2);padding:1.2rem 1.4rem;margin:1.5rem 0;}
     .receipt-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px dashed rgba(200,168,75,.12);font-size:.85rem;}
     .receipt-row:last-child{border-bottom:none;}
@@ -119,42 +118,12 @@
     .receipt-row .rvalue{color:var(--white);font-weight:600;}
     .receipt-row .rvalue.gold{color:var(--gold);font-family:'Playfair Display',serif;}
 
-    /* ══════════════════════════════════
-       ADMIN OVERLAY — estructura limpia
-       Solo UN panel visible a la vez
-    ══════════════════════════════════ */
-    #admin-overlay{
-      position:fixed;inset:0;z-index:300;
-      background:rgba(0,0,0,.88);
-      backdrop-filter:blur(8px);
-      display:none; /* oculto por defecto, JS lo muestra */
-      align-items:center;
-      justify-content:center;
-    }
-    #admin-overlay.open{ display:flex; }
-
-    /* login box */
-    #admin-login-wrap{
-      background:var(--navy);
-      border:1px solid rgba(200,168,75,.25);
-      border-top:4px solid var(--gold);
-      padding:2.5rem;
-      width:min(380px,94vw);
-      animation:fadeUp .3s ease both;
-    }
-    /* panel principal */
-    #admin-main-wrap{
-      background:var(--navy);
-      border:1px solid rgba(200,168,75,.25);
-      border-top:4px solid var(--gold);
-      width:min(900px,96vw);
-      max-height:92vh;
-      overflow-y:auto;
-      animation:fadeUp .35s ease both;
-      display:none; /* oculto hasta login */
-    }
-    #admin-main-wrap.open{ display:block; }
-
+    /* ADMIN */
+    #admin-overlay{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;}
+    #admin-overlay.open{display:flex;}
+    #admin-login-wrap{background:var(--navy);border:1px solid rgba(200,168,75,.25);border-top:4px solid var(--gold);padding:2.5rem;width:min(380px,94vw);animation:fadeUp .3s ease both;}
+    #admin-main-wrap{background:var(--navy);border:1px solid rgba(200,168,75,.25);border-top:4px solid var(--gold);width:min(900px,96vw);max-height:92vh;overflow-y:auto;animation:fadeUp .35s ease both;display:none;}
+    #admin-main-wrap.open{display:block;}
     .admin-header{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 1.8rem;border-bottom:1px solid rgba(200,168,75,.15);position:sticky;top:0;background:var(--navy);z-index:10;}
     .admin-header h2{font-family:'Playfair Display',serif;color:var(--gold);font-size:1.3rem;}
     .admin-close{background:none;border:none;color:var(--gray);font-size:1.5rem;cursor:pointer;padding:4px 8px;line-height:1;}
@@ -174,8 +143,6 @@
     .abtn.green{background:#2D6A4F;color:#A8E6CF;} .abtn.green:hover{background:#1B4332;}
     .abtn.red{background:#7B1A1A;color:#FFCDD2;} .abtn.red:hover{background:#5B0F0F;}
     .abtn.blue{background:#1A3C5E;color:#90CAF9;} .abtn.blue:hover{background:#0D2240;}
-
-    /* hemicycle */
     #hemicycle-svg{width:100%;max-width:700px;margin:0 auto;display:block;}
     .hemi-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:1rem;justify-content:center;}
     .hemi-leg-item{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--white-dim);}
@@ -188,22 +155,14 @@
     .voters-table td{padding:7px 10px;border-bottom:1px dashed rgba(255,255,255,.04);color:var(--white-dim);}
     .add-cand-form{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
     .add-cand-form .full{grid-column:1/-1;}
-
-    /* alert */
     .alert{padding:10px 14px;margin-bottom:1rem;font-size:.83rem;line-height:1.5;border-left:3px solid;}
     .alert.error{background:rgba(155,28,28,.15);border-color:var(--crimson);color:#FFCDD2;}
     .alert.success{background:rgba(45,106,79,.15);border-color:var(--success);color:#A8E6CF;}
     .alert.info{background:rgba(200,168,75,.08);border-color:var(--gold-dim);color:var(--gold-light);}
     .alert.hidden{display:none;}
-
     .powered-by{position:fixed;bottom:12px;right:16px;font-family:'JetBrains Mono',monospace;font-size:.65rem;color:rgba(200,168,75,.3);letter-spacing:.1em;z-index:50;}
     .powered-by span{color:rgba(200,168,75,.6);}
 
-    /* DEVTOOLS BLOCKER — solo PC */
-    #dt-block{display:none;position:fixed;inset:0;z-index:99999;background:#080E18;flex-direction:column;align-items:center;justify-content:center;gap:1rem;}
-    @media(min-width:769px){#dt-block.show{display:flex!important;}}
-
-    /* mobile */
     @media(max-width:600px){
       .card{padding:1.8rem 1.4rem;}
       .form-row{grid-template-columns:1fr;gap:0;}
@@ -217,15 +176,6 @@
 </head>
 <body>
 
-<!-- DEVTOOLS BLOCKER -->
-<div id="dt-block">
-  <div style="text-align:center">
-    <div style="font-size:3rem;margin-bottom:1rem">🔒</div>
-    <div style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);margin-bottom:.5rem">Acceso no autorizado</div>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--gray)">Las herramientas de desarrollo están deshabilitadas<br>en este sistema electoral.</div>
-  </div>
-</div>
-
 <!-- HEADER -->
 <header>
   <div class="header-logos">
@@ -234,9 +184,7 @@
     <img src="https://cromamedia.com/wp-content/uploads/2018/01/Logo_parlament.png" onerror="this.style.display='none'" alt="" />
     <div class="header-title">Consell Electoral de Catalunya<small>Spanish Barcelona Roleplay</small></div>
   </div>
-  <div>
-    <button class="btn-admin" onclick="openAdmin()">⚙ Panel Admin</button>
-  </div>
+  <button class="btn-admin" onclick="openAdmin()">⚙ Panel Admin</button>
 </header>
 
 <!-- LOGIN -->
@@ -263,7 +211,7 @@
   </div>
 </div>
 
-<!-- REGISTER — sin DNI ni IC -->
+<!-- REGISTER -->
 <div id="screen-register" class="screen hidden">
   <div class="card" style="max-width:500px">
     <div class="card-logo">
@@ -340,18 +288,13 @@
     <div class="modal-party-preview" id="modal-preview"></div>
     <div class="modal-btns">
       <button class="btn-cancel-modal" onclick="closeConfirm()">Cancelar</button>
-      <button class="btn-confirm" onclick="confirmVote()">Confirmar Voto</button>
+      <button class="btn-confirm" id="btn-confirm-vote" onclick="confirmVote()">Confirmar Voto</button>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════
-     ADMIN OVERLAY — estructura simplificada
-     Solo UN div visible a la vez
-════════════════════════════════════════ -->
+<!-- ADMIN OVERLAY -->
 <div id="admin-overlay">
-
-  <!-- PASO 1: formulario de login -->
   <div id="admin-login-wrap">
     <div style="text-align:center;margin-bottom:1.5rem">
       <img src="https://media.discordapp.net/attachments/1489954017495748649/1511073735753597209/q8svK8XAAAAABJRU5ErkJggg.png?ex=6a1f2094&is=6a1dcf14&hm=4b7c82786340a87c154f0d5926037fa38403f9414e2744c94161d6d4b6410e53&=&format=webp&quality=lossless" style="height:50px" onerror="this.style.display='none'" alt="" />
@@ -359,19 +302,12 @@
     <h2 style="font-family:'Playfair Display',serif;color:var(--gold);text-align:center;margin-bottom:.4rem">Panel de Administración</h2>
     <p style="text-align:center;color:var(--gray);font-size:.8rem;margin-bottom:1.5rem">Acceso restringido · Consell Electoral</p>
     <div id="admin-login-alert" class="alert error hidden"></div>
-    <div class="form-group">
-      <label>Usuario</label>
-      <input type="text" id="admin-user" placeholder="Usuario" autocomplete="off" spellcheck="false" />
-    </div>
-    <div class="form-group">
-      <label>Contraseña</label>
-      <input type="password" id="admin-pass" placeholder="••••••••" autocomplete="off" onkeydown="if(event.key==='Enter')doAdminLogin()" />
-    </div>
+    <div class="form-group"><label>Usuario</label><input type="text" id="admin-user" placeholder="Usuario" autocomplete="off" /></div>
+    <div class="form-group"><label>Contraseña</label><input type="password" id="admin-pass" placeholder="••••••••" autocomplete="off" onkeydown="if(event.key==='Enter')doAdminLogin()" /></div>
     <button class="btn-primary" onclick="doAdminLogin()">Acceder al Panel</button>
     <button class="abtn" onclick="closeAdmin()" style="width:100%;margin-top:.8rem;background:rgba(255,255,255,.06);color:var(--gray)">Cancelar</button>
   </div>
 
-  <!-- PASO 2: panel principal (oculto hasta login) -->
   <div id="admin-main-wrap">
     <div class="admin-header">
       <h2>⚙ Panel de Administración · Consell Electoral</h2>
@@ -457,206 +393,230 @@
 <div class="powered-by">powered by <span>qproz</span></div>
 
 <script>
-// ══════════════════════
-// ANTI-DEVTOOLS (solo PC)
-// ══════════════════════
-(function(){
-  if(window.innerWidth<=768) return;
-  const bl=document.getElementById('dt-block');
-  function check(){
-    if(window.outerWidth-window.innerWidth>160||window.outerHeight-window.innerHeight>160) bl.classList.add('show');
-    else bl.classList.remove('show');
-  }
-  document.addEventListener('keydown',function(e){
-    if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&'IJCijc'.includes(e.key))||(e.ctrlKey&&'Uu'.includes(e.key))){
-      e.preventDefault(); return false;
-    }
-  });
-  document.addEventListener('contextmenu',function(e){ e.preventDefault(); return false; });
-  setInterval(check,500);
-  window.addEventListener('resize',check);
-})();
-
-// ══════════════════════
-// CONFIG & STATE
-// ══════════════════════
+// ═══════════════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════════════
 const DISCORD_CLIENT_ID = '1489699802462687374';
-const REDIRECT_URI = encodeURIComponent(window.location.origin + window.location.pathname);
-const API_BASE = '/api';
+const REDIRECT_URI      = window.location.origin + window.location.pathname;
+// En producción con GitHub Pages + backend Railway/Render, cambia esta URL:
+const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? ''          // mismo servidor cuando se corre node localmente
+  : 'https://TU-BACKEND.railway.app'; // ← cambia esto cuando despliegues el backend
 
+// ═══════════════════════════════════════════════════
+// PARTIDOS POR DEFECTO (solo si MongoDB no tiene nada)
+// ═══════════════════════════════════════════════════
 const DEFAULT_PARTIES = [
-  {id:'ppc',name:'PPC',candidate:"N'golo Junqueras",discord:'porrashueleakk',logo:'https://tse1.mm.bing.net/th/id/OIP.DoSKt_oaKzQKsFnGxLW3FgHaHa?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3',color:'#0070C0'},
-  {id:'fejons',name:'FEJONS',candidate:'Alfonso Hernández Matamoros',discord:'maruja',logo:'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/beebaf4c-666a-47bc-9a26-d32daa10abb8/dfv2crz-a1e56455-f869-4a27-8ceb-db14bd0051aa.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2JlZWJhZjRjLTY2NmEtNDdiYy05YTI2LWQzMmRhYTEwYWJiOFwvZGZ2MmNyei1hMWU1NjQ1NS1mODY5LTRhMjctOGNlYi1kYjE0YmQwMDUxYWEucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Cd02QBDmNxwRtXJRA44T0LVLp_kQ0cfFHjL39GMlmA4',color:'#28A745'},
-  {id:'cup',name:'CUP',candidate:'Carlos Jiménez Villarejo',discord:'veuert',logo:'https://tse2.mm.bing.net/th/id/OIP.x2nx4eP1wuZqcde3a9tMcgHaHa?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3',color:'#DC1F26'},
-  {id:'pcc',name:'PCC',candidate:'remax_dc',discord:'remax_dc',logo:'https://media.discordapp.net/attachments/1489954017495748649/1511070865826123936/image.png?ex=6a1f1de8&is=6a1dcc68&hm=37895c65f6fb6f7cb0dd717a0be21387285498b9cda163258ce66e3a235bbc29&=&format=webp&quality=lossless',color:'#B71C1C'},
-  {id:'vox',name:'VOX',candidate:'Marco Volter',discord:'lukis._',logo:'https://tse1.mm.bing.net/th/id/OIP.nWbRVUu6vsfzKwNioPEeGQAAAA?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3',color:'#5DC837'},
-  {id:'junts',name:'JuntsXCat',candidate:'Carles Bancs',discord:'sobejano_44288',logo:'https://static.wikia.nocookie.net/spe/images/3/30/Junts.png/revision/latest?cb=20230910162339&path-prefix=es',color:'#003DA5'},
-  {id:'salf',name:'SALF',candidate:'Jorge Manuel Rodríguez',discord:'foxigamerpro24',logo:'https://tse1.mm.bing.net/th/id/OIP.qxXw7-7UNsKfZRVIra_kAgHaHa?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3',color:'#FF6F00'}
+  {id:'ppc',   name:'PPC',       candidate:"N'golo Junqueras",          discord:'porrashueleakk', logo:'https://tse1.mm.bing.net/th/id/OIP.DoSKt_oaKzQKsFnGxLW3FgHaHa?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3', color:'#0070C0'},
+  {id:'fejons',name:'FEJONS',    candidate:'Alfonso Hernández Matamoros',discord:'maruja',         logo:'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/beebaf4c-666a-47bc-9a26-d32daa10abb8/dfv2crz-a1e56455-f869-4a27-8ceb-db14bd0051aa.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2JlZWJhZjRjLTY2NmEtNDdiYy05YTI2LWQzMmRhYTEwYWJiOFwvZGZ2MmNyei1hMWU1NjQ1NS1mODY5LTRhMjctOGNlYi1kYjE0YmQwMDUxYWEucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Cd02QBDmNxwRtXJRA44T0LVLp_kQ0cfFHjL39GMlmA4', color:'#28A745'},
+  {id:'cup',   name:'CUP',       candidate:'Carlos Jiménez Villarejo',  discord:'veuert',         logo:'https://tse2.mm.bing.net/th/id/OIP.x2nx4eP1wuZqcde3a9tMcgHaHa?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3', color:'#DC1F26'},
+  {id:'pcc',   name:'PCC',       candidate:'remax_dc',                  discord:'remax_dc',        logo:'https://media.discordapp.net/attachments/1489954017495748649/1511070865826123936/image.png?ex=6a1f1de8&is=6a1dcc68&hm=37895c65f6fb6f7cb0dd717a0be21387285498b9cda163258ce66e3a235bbc29&=&format=webp&quality=lossless', color:'#B71C1C'},
+  {id:'vox',   name:'VOX',       candidate:'Marco Volter',              discord:'lukis._',        logo:'https://tse1.mm.bing.net/th/id/OIP.nWbRVUu6vsfzKwNioPEeGQAAAA?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3', color:'#5DC837'},
+  {id:'junts', name:'JuntsXCat', candidate:'Carles Bancs',              discord:'sobejano_44288',  logo:'https://static.wikia.nocookie.net/spe/images/3/30/Junts.png/revision/latest?cb=20230910162339&path-prefix=es', color:'#003DA5'},
+  {id:'salf',  name:'SALF',      candidate:'Jorge Manuel Rodríguez',    discord:'foxigamerpro24',  logo:'https://tse1.mm.bing.net/th/id/OIP.qxXw7-7UNsKfZRVIra_kAgHaHa?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3', color:'#FF6F00'}
 ];
 
+// ═══════════════════════════════════════════════════
+// STATE — NADA CRÍTICO EN LOCALSTORAGE
+// ═══════════════════════════════════════════════════
 const S = {
-  discordUser: null,
-  regData: null,
-  selectedParty: null,
-  electionActive: false,   // empieza inactivo; se consulta del backend
-  parties: [],
-  votes: [],
-  voters: [],
-  adminLoggedIn: false
+  discordUser   : null,   // viene de Discord OAuth → session
+  regData       : null,
+  selectedParty : null,
+  electionActive: false,  // siempre se lee del backend
+  parties       : [],
+  votes         : [],     // {partyId} — del backend
+  voters        : [],     // lista completa — del backend
+  adminLoggedIn : false
 };
 
-// ══════════════════════
+// ═══════════════════════════════════════════════════
 // HELPERS
-// ══════════════════════
+// ═══════════════════════════════════════════════════
 function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.add('hidden'));
-  document.getElementById('screen-'+id)?.classList.remove('hidden');
+  document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+  document.getElementById('screen-' + id)?.classList.remove('hidden');
 }
-function alert_(id,type,msg){
-  const el=document.getElementById(id);
-  if(!el) return;
-  el.className='alert '+type;
-  el.textContent=msg;
+function alertEl(id, type, msg){
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.className = 'alert ' + type;
+  el.textContent = msg;
 }
 
-// ══════════════════════
+// Helper para fetch con timeout
+async function apiFetch(url, opts = {}, timeoutMs = 8000){
+  const ctrl = new AbortController();
+  const tid   = setTimeout(() => ctrl.abort(), timeoutMs);
+  try {
+    const r = await fetch(API_BASE + url, { ...opts, signal: ctrl.signal });
+    clearTimeout(tid);
+    return r;
+  } catch(e) {
+    clearTimeout(tid);
+    throw e;
+  }
+}
+
+// ═══════════════════════════════════════════════════
 // INIT
-// ══════════════════════
-window.addEventListener('DOMContentLoaded', async ()=>{
-  await initParties();
-  const code=new URLSearchParams(window.location.search).get('code');
-  if(code) handleOAuth(code);
-  else showScreen('login');
+// ═══════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', async () => {
+  // Cargar partidos del backend
+  await loadParties();
+
+  const code = new URLSearchParams(window.location.search).get('code');
+  if (code) {
+    handleOAuth(code);
+  } else {
+    showScreen('login');
+  }
 });
 
-async function initParties(){
-  try{
-    const r=await fetch(`${API_BASE}/admin/parties`);
-    if(r.ok){
-      const d=await r.json();
-      if(Array.isArray(d)&&d.length>0){ S.parties=d; return; }
+async function loadParties(){
+  try {
+    const r = await apiFetch('/api/admin/parties');
+    if (r.ok) {
+      const d = await r.json();
+      if (Array.isArray(d) && d.length > 0) {
+        S.parties = d;
+        return;
+      }
     }
-  }catch(e){}
-  const ls=localStorage.getItem('sb_parties');
-  S.parties = ls ? JSON.parse(ls) : DEFAULT_PARTIES;
+  } catch(e) { /* sin backend */ }
+  S.parties = DEFAULT_PARTIES;
 }
 
-// ══════════════════════
-// DISCORD
-// ══════════════════════
+// ═══════════════════════════════════════════════════
+// DISCORD OAUTH
+// ═══════════════════════════════════════════════════
 function loginDiscord(){
-  const p=new URLSearchParams({client_id:DISCORD_CLIENT_ID,redirect_uri:decodeURIComponent(REDIRECT_URI),response_type:'code',scope:'identify'});
-  window.location.href=`https://discord.com/api/oauth2/authorize?${p}`;
+  const p = new URLSearchParams({
+    client_id    : DISCORD_CLIENT_ID,
+    redirect_uri : REDIRECT_URI,
+    response_type: 'code',
+    scope        : 'identify'
+  });
+  window.location.href = `https://discord.com/api/oauth2/authorize?${p}`;
 }
 
 async function handleOAuth(code){
-  alert_('login-alert','info','Autenticando con Discord...');
-  try{
-    const r=await fetch(`${API_BASE}/auth/discord`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,redirect_uri:decodeURIComponent(REDIRECT_URI)})});
-    if(!r.ok) throw new Error('backend');
-    const d=await r.json();
-    if(!d.id) throw new Error('no id');
-    S.discordUser=d;
-  }catch(e){
-    S.discordUser={id:'demo_'+Math.random().toString(36).slice(2),username:'ciudadano_demo'};
-    alert_('login-alert','info','⚠ Modo demo — backend no conectado');
-    await new Promise(r=>setTimeout(r,800));
+  alertEl('login-alert','info','Autenticando con Discord...');
+  showScreen('login');
+  try {
+    const r = await apiFetch('/api/auth/discord', {
+      method : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body   : JSON.stringify({ code, redirect_uri: REDIRECT_URI })
+    });
+    if (!r.ok) throw new Error('backend error');
+    const d = await r.json();
+    if (!d.id) throw new Error('no user id');
+    S.discordUser = d;
+  } catch(e) {
+    // MODO DEMO — sin backend real
+    S.discordUser = { id: 'demo_' + Math.random().toString(36).slice(2), username: 'ciudadano_demo' };
+    alertEl('login-alert','info','⚠ Modo demo — backend no conectado');
+    await new Promise(r => setTimeout(r, 800));
   }
-  window.history.replaceState({},'',window.location.pathname);
+  // Limpiar ?code= de la URL sin recargar
+  window.history.replaceState({}, '', window.location.pathname);
   afterLogin();
 }
 
-// Reemplaza la función afterLogin() completa por esta:
 async function afterLogin(){
-  // Comprobar doble voto
-  let hasVoted = false;
-  let voteData = null;
-
+  // 1. Comprobar doble voto EN EL BACKEND
   try {
-    const r = await fetch(`${API_BASE}/voters/check?discordId=${S.discordUser.id}`);
-    if(r.ok){
+    const r = await apiFetch(`/api/voters/check?discordId=${encodeURIComponent(S.discordUser.id)}`);
+    if (r.ok) {
       const d = await r.json();
-      if(d.hasVoted){
-        hasVoted = true;
-        voteData = d;
+      if (d.hasVoted) {
+        const party = S.parties.find(p => p.id === d.partyId) || { name: d.partyName, candidate: '' };
+        showThankYou(party, { ...d, discordUsername: S.discordUser.username });
+        return;
       }
     }
-  } catch(e) {
-    console.warn("Backend no disponible, usando fallback local");
-  }
+  } catch(e) { /* si el backend no responde, continuamos */ }
 
-  if(hasVoted){
-    showThankYou(S.parties.find(p=>p.id===voteData.partyId)||{name:voteData.partyName}, voteData);
-    return;
-  }
-
-  // === Cargar estado de elecciones SIEMPRE del servidor ===
-  try{
-    const r = await fetch(`${API_BASE}/admin/stats`);
-    if(r.ok){
+  // 2. Estado de elecciones DEL BACKEND
+  try {
+    const r = await apiFetch('/api/admin/stats');
+    if (r.ok) {
       const d = await r.json();
       S.electionActive = d.electionActive ?? false;
-      if(Array.isArray(d.parties) && d.parties.length > 0){
-        S.parties = d.parties;
-      }
+      // Actualizar partidos si vienen del backend
+      if (Array.isArray(d.parties) && d.parties.length > 0) S.parties = d.parties;
     }
-  } catch(e){
-    console.warn("No se pudo cargar estado del servidor");
-    // Solo usar localStorage como último recurso
-    S.electionActive = localStorage.getItem('sb_election_active') === '1';
+  } catch(e) {
+    S.electionActive = false; // por defecto cerradas si no hay backend
   }
 
   showScreen('register');
-  syncElectionStatus();
 }
 
-// ══════════════════════
-// REGISTRATION
-// ══════════════════════
+// ═══════════════════════════════════════════════════
+// REGISTRO
+// ═══════════════════════════════════════════════════
 function submitRegistration(){
-  const nombre=document.getElementById('reg-nombre').value.trim();
-  const apellidos=document.getElementById('reg-apellidos').value.trim();
-  const fecha=document.getElementById('reg-fecha').value;
-  if(!nombre||!apellidos||!fecha){ alert_('reg-alert','error','Por favor, rellene todos los campos.'); return; }
-  S.regData={nombre,apellidos,fecha};
+  const nombre    = document.getElementById('reg-nombre').value.trim();
+  const apellidos = document.getElementById('reg-apellidos').value.trim();
+  const fecha     = document.getElementById('reg-fecha').value;
+  if (!nombre || !apellidos || !fecha){
+    alertEl('reg-alert','error','Por favor, rellene todos los campos.');
+    return;
+  }
+  S.regData = { nombre, apellidos, fecha };
   showScreen('checking');
   runChecking();
 }
 
-const STEPS=['Conectando con el censo electoral...','Verificando identidad en el Registro Civil...','Comprobando el padrón municipal...','Validando elegibilidad electoral...','Confirmando datos del votante...','Generando certificado de participación...'];
+const STEPS = [
+  'Conectando con el censo electoral...',
+  'Verificando identidad en el Registro Civil...',
+  'Comprobando el padrón municipal...',
+  'Validando elegibilidad electoral...',
+  'Confirmando datos del votante...',
+  'Generando certificado de participación...'
+];
+
 function runChecking(){
-  let i=0;
-  const el=document.getElementById('checking-step');
-  const iv=setInterval(()=>{
-    if(i<STEPS.length){
-      el.style.opacity=0;
-      setTimeout(()=>{ el.textContent=STEPS[i]; el.style.opacity=1; },150);
+  let i = 0;
+  const el = document.getElementById('checking-step');
+  const iv = setInterval(() => {
+    if (i < STEPS.length){
+      el.style.opacity = 0;
+      setTimeout(() => { el.textContent = STEPS[i]; el.style.opacity = 1; }, 150);
       i++;
-    }else{
+    } else {
       clearInterval(iv);
-      setTimeout(()=>{ showScreen('secrecy'); syncElectionStatus(); },600);
+      setTimeout(() => { showScreen('secrecy'); syncElectionStatus(); }, 600);
     }
-  },700);
+  }, 700);
 }
 
 function syncElectionStatus(){
-  const btn=document.getElementById('start-vote-btn');
-  const msg=document.getElementById('election-closed-msg');
-  if(!S.electionActive){ btn.disabled=true; msg.classList.remove('hidden'); }
-  else { btn.disabled=false; msg.classList.add('hidden'); }
+  const btn = document.getElementById('start-vote-btn');
+  const msg = document.getElementById('election-closed-msg');
+  if (!S.electionActive){
+    btn.disabled = true;
+    msg.classList.remove('hidden');
+  } else {
+    btn.disabled = false;
+    msg.classList.add('hidden');
+  }
 }
 
-// ══════════════════════
-// VOTING
-// ══════════════════════
+// ═══════════════════════════════════════════════════
+// VOTACIÓN
+// ═══════════════════════════════════════════════════
 function startVoting(){
-  if(!S.electionActive) return;
+  if (!S.electionActive) return;
   showScreen('vote');
   renderParties();
 }
 
 function renderParties(){
-  document.getElementById('parties-grid').innerHTML=S.parties.map(p=>`
+  document.getElementById('parties-grid').innerHTML = S.parties.map(p => `
     <div class="party-card" onclick="selectParty('${p.id}')">
       <div class="party-logo-wrap">
         <img src="${p.logo}" alt="${p.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22><rect fill=%22%231A2D42%22 width=%22100%22 height=%2260%22/><text x=%2250%22 y=%2238%22 text-anchor=%22middle%22 fill=%22%23C8A84B%22 font-size=%2218%22>${p.name}</text></svg>'" />
@@ -669,65 +629,94 @@ function renderParties(){
 }
 
 function selectParty(id){
-  const p=S.parties.find(x=>x.id===id); if(!p) return;
-  S.selectedParty=p;
-  document.getElementById('modal-preview').innerHTML=`
+  const p = S.parties.find(x => x.id === id);
+  if (!p) return;
+  S.selectedParty = p;
+  document.getElementById('modal-preview').innerHTML = `
     <img src="${p.logo}" onerror="this.style.display='none'" style="height:44px;object-fit:contain" alt="" />
     <div><div class="pname">${p.name}</div><div class="pcand">${p.candidate} (@${p.discord})</div></div>`;
   document.getElementById('modal-confirm').classList.remove('hidden');
 }
-function closeConfirm(){ document.getElementById('modal-confirm').classList.add('hidden'); S.selectedParty=null; }
 
-async function confirmVote(){
-  const p=S.selectedParty; if(!p) return;
+function closeConfirm(){
   document.getElementById('modal-confirm').classList.add('hidden');
-  const rec={
-    discordId:S.discordUser?.id||'demo',
-    discordUsername:S.discordUser?.username||'demo',
-    nombre:S.regData?.nombre||'',
-    apellidos:S.regData?.apellidos||'',
-    partyId:p.id, partyName:p.name,
-    date:new Date().toISOString()
-  };
-  // Guardar localmente
-  const lv=JSON.parse(localStorage.getItem('sb_voters')||'[]');
-  lv.push(rec); localStorage.setItem('sb_voters',JSON.stringify(lv));
-  // Backend
-  try{ await fetch(`${API_BASE}/votes`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(rec)}); }catch(e){}
-  showThankYou(p,rec);
+  S.selectedParty = null;
 }
 
-function showThankYou(party,rec){
-  document.getElementById('vote-receipt').innerHTML=`
-    <div class="receipt-row"><span class="rlabel">Partido votado</span><span class="rvalue gold">${party?.name||rec?.partyName||'—'}</span></div>
-    <div class="receipt-row"><span class="rlabel">Candidato</span><span class="rvalue">${party?.candidate||'—'}</span></div>
-    <div class="receipt-row"><span class="rlabel">Votante</span><span class="rvalue">${rec?.nombre||''} ${rec?.apellidos||''}</span></div>
-    <div class="receipt-row"><span class="rlabel">Discord</span><span class="rvalue">@${rec?.discordUsername||'—'}</span></div>
-    <div class="receipt-row"><span class="rlabel">Fecha y hora</span><span class="rvalue">${new Date(rec?.date||Date.now()).toLocaleString('es-ES')}</span></div>`;
+async function confirmVote(){
+  const p = S.selectedParty;
+  if (!p) return;
+
+  // Deshabilitar botón para evitar doble click
+  const btn = document.getElementById('btn-confirm-vote');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+
+  const rec = {
+    discordId      : S.discordUser?.id || 'demo',
+    discordUsername: S.discordUser?.username || 'demo',
+    nombre         : S.regData?.nombre || '',
+    apellidos      : S.regData?.apellidos || '',
+    partyId        : p.id,
+    partyName      : p.name,
+    date           : new Date().toISOString()
+  };
+
+  try {
+    const r = await apiFetch('/api/votes', {
+      method : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body   : JSON.stringify(rec)
+    });
+    if (r.status === 409){
+      // Ya votó (raza condición)
+      document.getElementById('modal-confirm').classList.add('hidden');
+      showThankYou(p, rec);
+      return;
+    }
+    if (!r.ok){
+      const err = await r.json().catch(() => ({}));
+      alert('Error al registrar el voto: ' + (err.error || r.status));
+      btn.disabled = false;
+      btn.textContent = 'Confirmar Voto';
+      return;
+    }
+  } catch(e){
+    // Backend caído — modo demo
+    console.warn('Backend no disponible, voto solo local:', e.message);
+  }
+
+  document.getElementById('modal-confirm').classList.add('hidden');
+  showThankYou(p, rec);
+}
+
+function showThankYou(party, rec){
+  document.getElementById('vote-receipt').innerHTML = `
+    <div class="receipt-row"><span class="rlabel">Partido votado</span><span class="rvalue gold">${party?.name || rec?.partyName || '—'}</span></div>
+    <div class="receipt-row"><span class="rlabel">Candidato</span><span class="rvalue">${party?.candidate || '—'}</span></div>
+    <div class="receipt-row"><span class="rlabel">Votante</span><span class="rvalue">${rec?.nombre || ''} ${rec?.apellidos || ''}</span></div>
+    <div class="receipt-row"><span class="rlabel">Discord</span><span class="rvalue">@${rec?.discordUsername || '—'}</span></div>
+    <div class="receipt-row"><span class="rlabel">Fecha y hora</span><span class="rvalue">${new Date(rec?.date || Date.now()).toLocaleString('es-ES')}</span></div>`;
   showScreen('thankyou');
 }
 
-// ══════════════════════════════════════════
-// ADMIN — lógica completamente reescrita
-// Usamos display:none/flex en el overlay
-// y display:none/block en los dos paneles
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+// ADMIN
+// ═══════════════════════════════════════════════════
 function openAdmin(){
-  // Siempre empezar mostrando el login
-  document.getElementById('admin-login-wrap').style.display='block';
-  document.getElementById('admin-main-wrap').style.display='none';
+  document.getElementById('admin-login-wrap').style.display = 'block';
+  document.getElementById('admin-main-wrap').style.display  = 'none';
   document.getElementById('admin-main-wrap').classList.remove('open');
-  document.getElementById('admin-user').value='';
-  document.getElementById('admin-pass').value='';
-  document.getElementById('admin-login-alert').className='alert error hidden';
+  document.getElementById('admin-user').value = '';
+  document.getElementById('admin-pass').value = '';
+  document.getElementById('admin-login-alert').className = 'alert error hidden';
   document.getElementById('admin-overlay').classList.add('open');
-  // Si ya estaba logueado, skip al panel
-  if(S.adminLoggedIn) showAdminMain();
+  if (S.adminLoggedIn) showAdminMain();
 }
 
 function showAdminMain(){
-  document.getElementById('admin-login-wrap').style.display='none';
-  document.getElementById('admin-main-wrap').style.display='block';
+  document.getElementById('admin-login-wrap').style.display = 'none';
+  document.getElementById('admin-main-wrap').style.display  = 'block';
   document.getElementById('admin-main-wrap').classList.add('open');
   loadAdminData();
 }
@@ -737,160 +726,204 @@ function closeAdmin(){
 }
 
 function doAdminLogin(){
-  const u=document.getElementById('admin-user').value.trim();
-  const p=document.getElementById('admin-pass').value;
-  if(u==='ENCARGADO'&&p==='X2X3X5POLITICA'){
-    S.adminLoggedIn=true;
+  const u = document.getElementById('admin-user').value.trim();
+  const p = document.getElementById('admin-pass').value;
+  if (u === 'ENCARGADO' && p === 'X2X3X5POLITICA'){
+    S.adminLoggedIn = true;
     showAdminMain();
-  }else{
-    alert_('admin-login-alert','error','Credenciales incorrectas.');
-    document.getElementById('admin-pass').value='';
+  } else {
+    alertEl('admin-login-alert','error','Credenciales incorrectas.');
+    document.getElementById('admin-pass').value = '';
   }
 }
 
 function switchTab(name){
-  const tabs=['estado','resultados','candidatos','votantes'];
-  document.querySelectorAll('.admin-tab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===name));
-  document.querySelectorAll('.admin-tab-pane').forEach(p=>p.classList.remove('active'));
-  document.getElementById('tab-'+name)?.classList.add('active');
-  if(name==='resultados') renderHemicycle();
-  if(name==='candidatos') renderAdminCandidates();
-  if(name==='votantes') renderVoters();
+  const tabs = ['estado','resultados','candidatos','votantes'];
+  document.querySelectorAll('.admin-tab').forEach((t,i) => t.classList.toggle('active', tabs[i] === name));
+  document.querySelectorAll('.admin-tab-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name)?.classList.add('active');
+  if (name === 'resultados') renderHemicycle();
+  if (name === 'candidatos') renderAdminCandidates();
+  if (name === 'votantes')   renderVoters();
 }
 
 async function loadAdminData(){
-  try{
-    const r = await fetch(`${API_BASE}/admin/stats`);
-    if(r.ok){
+  try {
+    const r = await apiFetch('/api/admin/stats');
+    if (r.ok){
       const d = await r.json();
-      S.votes = Array.isArray(d.votes) ? d.votes : [];
-      S.voters = Array.isArray(d.voters) ? d.voters : [];
-      if(typeof d.electionActive === 'boolean') S.electionActive = d.electionActive;
-      if(Array.isArray(d.parties) && d.parties.length > 0){
-        S.parties = d.parties;
-        localStorage.setItem('sb_parties', JSON.stringify(S.parties));
-      }
+      // votes viene como [{partyId:'ppc'}, {partyId:'cup'}, ...]
+      if (Array.isArray(d.votes))   S.votes   = d.votes;
+      if (Array.isArray(d.voters))  S.voters  = d.voters;
+      if (typeof d.electionActive === 'boolean') S.electionActive = d.electionActive;
+      if (Array.isArray(d.parties) && d.parties.length > 0) S.parties = d.parties;
     }
-  } catch(e){
-    console.error("Error cargando datos admin:", e);
+  } catch(e) {
+    console.warn('Admin stats error:', e.message);
   }
   updateAdminStatus();
 }
 
 function updateAdminStatus(){
-  const dot=document.getElementById('a-status-dot');
-  const txt=document.getElementById('a-status-text');
-  const sub=document.getElementById('a-status-sub');
-  if(S.electionActive){
-    dot.className='status-dot on';
-    txt.textContent='Elecciones: Activas';
-    sub.textContent='Las votaciones están en curso';
-  }else{
-    dot.className='status-dot off';
-    txt.textContent='Elecciones: Inactivas';
-    sub.textContent='Las votaciones están detenidas';
+  const dot = document.getElementById('a-status-dot');
+  const txt = document.getElementById('a-status-text');
+  const sub = document.getElementById('a-status-sub');
+  if (S.electionActive){
+    dot.className       = 'status-dot on';
+    txt.textContent     = 'Elecciones: Activas';
+    sub.textContent     = 'Las votaciones están en curso';
+  } else {
+    dot.className       = 'status-dot off';
+    txt.textContent     = 'Elecciones: Inactivas';
+    sub.textContent     = 'Las votaciones están detenidas';
   }
-  document.getElementById('stat-total').textContent=S.votes.length||S.voters.length||0;
-  document.getElementById('stat-parties').textContent=S.parties.length;
+  document.getElementById('stat-total').textContent   = S.votes.length || S.voters.length || 0;
+  document.getElementById('stat-parties').textContent = S.parties.length;
   syncElectionStatus();
 }
 
 async function setElection(active){
-  S.electionActive = active;
-  
-  // Actualizar visual inmediatamente
-  updateAdminStatus();
-  syncElectionStatus();
-
-  // Intentar guardar en servidor
-  try{
-    const r = await fetch(`${API_BASE}/admin/election`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({active})
+  try {
+    const r = await apiFetch('/api/admin/election', {
+      method : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body   : JSON.stringify({ active })
     });
-    if(!r.ok) throw new Error();
-  } catch(e){
-    console.warn("No se pudo actualizar en servidor");
-    localStorage.setItem('sb_election_active', active ? '1' : '0');
+    if (r.ok) {
+      S.electionActive = active;
+      updateAdminStatus();
+    } else {
+      alert('Error al cambiar estado de elecciones');
+    }
+  } catch(e) {
+    alert('No se pudo conectar con el backend: ' + e.message);
   }
 }
 
-// ══════════════════════
-// HEMICYCLE — exactamente 28 asientos
-// ══════════════════════
-const TOTAL_SEATS=28;
+// ═══════════════════════════════════════════════════
+// HEMICICLO — D'Hondt con 28 escaños
+// ═══════════════════════════════════════════════════
+const TOTAL_SEATS = 28;
 
 function computeSeats(){
-  const counts={};
-  S.votes.forEach(v=>{ counts[v.partyId]=(counts[v.partyId]||0)+1; });
-  const totalVotes=S.votes.length||1;
-  const active=S.parties.map(p=>({...p,votes:counts[p.id]||0,color:p.color||'#888'})).filter(p=>p.votes>0);
-  if(!active.length) return S.parties.map(p=>({...p,votes:0,seats:0,pct:'0.0',color:p.color||'#888'}));
-  // D'Hondt
-  const seats={};
-  active.forEach(p=>seats[p.id]=0);
-  for(let i=0;i<TOTAL_SEATS;i++){
-    let best=null,bv=-1;
-    active.forEach(p=>{ const v=p.votes/(seats[p.id]+1); if(v>bv){bv=v;best=p.id;} });
-    if(best) seats[best]++;
+  // Contar votos por partido
+  const counts = {};
+  S.votes.forEach(v => {
+    counts[v.partyId] = (counts[v.partyId] || 0) + 1;
+  });
+
+  const totalVotes = S.votes.length;
+  if (totalVotes === 0){
+    return S.parties.map(p => ({ ...p, votes: 0, seats: 0, pct: '0.0' }));
   }
-  return S.parties.map(p=>({
-    ...p,votes:counts[p.id]||0,seats:seats[p.id]||0,
-    pct:((counts[p.id]||0)/totalVotes*100).toFixed(1),
-    color:p.color||'#888'
+
+  // Solo partidos con al menos 1 voto
+  const active = S.parties
+    .map(p => ({ ...p, votes: counts[p.id] || 0, color: p.color || '#888' }))
+    .filter(p => p.votes > 0);
+
+  // D'Hondt
+  const seats = {};
+  active.forEach(p => seats[p.id] = 0);
+  for (let i = 0; i < TOTAL_SEATS; i++){
+    let bestId = null, bestVal = -1;
+    active.forEach(p => {
+      const v = p.votes / (seats[p.id] + 1);
+      if (v > bestVal){ bestVal = v; bestId = p.id; }
+    });
+    if (bestId) seats[bestId]++;
+  }
+
+  return S.parties.map(p => ({
+    ...p,
+    votes: counts[p.id] || 0,
+    seats: seats[p.id] || 0,
+    pct  : ((counts[p.id] || 0) / totalVotes * 100).toFixed(1),
+    color: p.color || '#888'
   }));
 }
 
-function buildSeats28(){
-  // 4 filas, distribuir exactamente 28 asientos proporcionales al arco
-  const cx=350,cy=330;
-  const radii=[100,155,210,265];
-  const arcs=radii.map(r=>Math.PI*r);
-  const total=arcs.reduce((a,b)=>a+b,0);
-  let per=radii.map(r=>Math.round(TOTAL_SEATS*Math.PI*r/total));
-  // corregir suma
-  let diff=TOTAL_SEATS-per.reduce((a,b)=>a+b,0);
-  per[per.length-1]+=diff;
-  const pos=[];
-  for(let row=0;row<4;row++){
-    const r=radii[row],n=per[row];
-    for(let i=0;i<n;i++){
-      const angle=Math.PI*(i/(n>1?n-1:1));
-      pos.push({x:cx+r*Math.cos(Math.PI+angle),y:cy+r*Math.sin(Math.PI+angle)});
+function buildSeatPositions(){
+  const cx = 350, cy = 330;
+  const radii = [100, 155, 210, 265];
+  const totalArc = radii.reduce((a, r) => a + Math.PI * r, 0);
+  let perRow = radii.map(r => Math.round(TOTAL_SEATS * Math.PI * r / totalArc));
+  // Ajustar para que sumen exactamente 28
+  const diff = TOTAL_SEATS - perRow.reduce((a, b) => a + b, 0);
+  perRow[perRow.length - 1] += diff;
+
+  const positions = [];
+  for (let row = 0; row < 4; row++){
+    const r = radii[row], n = perRow[row];
+    for (let i = 0; i < n; i++){
+      const angle = Math.PI * (n === 1 ? 0.5 : i / (n - 1));
+      positions.push({
+        x: cx + r * Math.cos(Math.PI + angle),
+        y: cy + r * Math.sin(Math.PI + angle)
+      });
     }
   }
-  return pos; // siempre 28
+  return positions;
 }
 
 function renderHemicycle(){
-  const data=computeSeats();
-  const svg=document.getElementById('hemicycle-svg');
-  const legend=document.getElementById('hemi-legend');
-  const tbody=document.getElementById('results-tbody');
-  const positions=buildSeats28(); // exactamente 28
-  // Array de colores para los 28
-  const colors=[];
-  const EMPTY='#1A2D42';
-  data.filter(p=>p.seats>0).sort((a,b)=>b.seats-a.seats).forEach(p=>{
-    for(let i=0;i<p.seats;i++) colors.push(p.color);
+  const data      = computeSeats();
+  const svg       = document.getElementById('hemicycle-svg');
+  const legend    = document.getElementById('hemi-legend');
+  const tbody     = document.getElementById('results-tbody');
+  const positions = buildSeatPositions();
+
+  // Construir array de colores para los 28 asientos
+  const EMPTY  = '#1A2D42';
+  const colors = [];
+  // Ordenar por escaños desc para mostrar agrupados
+  const withSeats = data.filter(p => p.seats > 0).sort((a, b) => b.seats - a.seats);
+  withSeats.forEach(p => {
+    for (let i = 0; i < p.seats; i++) colors.push(p.color);
   });
-  while(colors.length<TOTAL_SEATS) colors.push(EMPTY);
-  // Generar SVG
-  const circles=positions.map((pos,i)=>{
-    const c=colors[i];
-    const empty=c===EMPTY;
-    return `<circle cx="${pos.x.toFixed(1)}" cy="${pos.y.toFixed(1)}" r="9" fill="${c}" stroke="${empty?'#243B55':'rgba(0,0,0,0.5)'}" stroke-width="1.5" opacity="${empty?0.3:1}"/>`;
+  while (colors.length < TOTAL_SEATS) colors.push(EMPTY);
+
+  // SVG
+  const circles = positions.map((pos, i) => {
+    const c     = colors[i];
+    const empty = c === EMPTY;
+    return `<circle cx="${pos.x.toFixed(1)}" cy="${pos.y.toFixed(1)}" r="9"
+      fill="${c}" stroke="${empty ? '#243B55' : 'rgba(0,0,0,0.5)'}"
+      stroke-width="1.5" opacity="${empty ? 0.3 : 1}"/>`;
   }).join('');
-  svg.innerHTML=`
-    <defs><radialGradient id="hg" cx="50%" cy="100%"><stop offset="0%" stop-color="#1A2D42"/><stop offset="100%" stop-color="#080E18"/></radialGradient></defs>
+
+  svg.innerHTML = `
+    <defs>
+      <radialGradient id="hg" cx="50%" cy="100%">
+        <stop offset="0%" stop-color="#1A2D42"/>
+        <stop offset="100%" stop-color="#080E18"/>
+      </radialGradient>
+    </defs>
     <rect width="700" height="380" fill="url(#hg)" rx="8"/>
-    <text x="350" y="28" text-anchor="middle" fill="#C8A84B" font-family="Playfair Display,serif" font-size="15" font-weight="bold">Hemicicle · Parlament de Catalunya</text>
-    <text x="350" y="46" text-anchor="middle" fill="#8A8070" font-family="JetBrains Mono,monospace" font-size="9">${TOTAL_SEATS} escons totals</text>
+    <text x="350" y="28" text-anchor="middle" fill="#C8A84B"
+      font-family="Playfair Display,serif" font-size="15" font-weight="bold">
+      Hemicicle · Parlament de Catalunya
+    </text>
+    <text x="350" y="46" text-anchor="middle" fill="#8A8070"
+      font-family="JetBrains Mono,monospace" font-size="9">
+      ${TOTAL_SEATS} escons totals · ${S.votes.length} vots emesos
+    </text>
     ${circles}
-    <text x="350" y="374" text-anchor="middle" fill="#3A3020" font-family="JetBrains Mono,monospace" font-size="9">powered by qproz · Spanish Barcelona RP</text>`;
-  legend.innerHTML=data.filter(p=>p.seats>0).map(p=>`<div class="hemi-leg-item"><div class="hemi-leg-dot" style="background:${p.color}"></div>${p.name}: ${p.seats} esc.</div>`).join('');
-  tbody.innerHTML=data.sort((a,b)=>b.votes-a.votes).map(p=>`
+    <text x="350" y="374" text-anchor="middle" fill="#3A3020"
+      font-family="JetBrains Mono,monospace" font-size="9">
+      powered by qproz · Spanish Barcelona RP
+    </text>`;
+
+  // Leyenda
+  legend.innerHTML = withSeats.map(p =>
+    `<div class="hemi-leg-item">
+      <div class="hemi-leg-dot" style="background:${p.color}"></div>
+      ${p.name}: ${p.seats} esc.
+    </div>`
+  ).join('');
+
+  // Tabla
+  tbody.innerHTML = [...data].sort((a, b) => b.votes - a.votes).map(p => `
     <tr>
       <td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${p.color};margin-right:6px;vertical-align:middle"></span>${p.name}</td>
       <td style="color:var(--white-dim)">${p.candidate}</td>
@@ -900,37 +933,58 @@ function renderHemicycle(){
     </tr>`).join('');
 }
 
-// ══════════════════════
+// ═══════════════════════════════════════════════════
 // CANDIDATOS
-// ══════════════════════
+// ═══════════════════════════════════════════════════
 async function addCandidate(){
-  const party=document.getElementById('cand-party').value.trim();
-  const name=document.getElementById('cand-name').value.trim();
-  const discord=document.getElementById('cand-discord').value.trim();
-  const logo=document.getElementById('cand-logo').value.trim();
-  const color=document.getElementById('cand-color').value;
-  if(!party||!name||!discord){ alert('Rellena nombre del partido, candidato y discord'); return; }
-  const np={id:party.toLowerCase().replace(/\s+/g,'_')+'_'+Date.now(),name:party,candidate:name,discord,logo,color};
-  S.parties.push(np);
-  localStorage.setItem('sb_parties',JSON.stringify(S.parties));
-  renderAdminCandidates();
-  try{ await fetch(`${API_BASE}/admin/parties`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(np)}); }catch(e){}
-  ['cand-party','cand-name','cand-discord','cand-logo'].forEach(id=>document.getElementById(id).value='');
+  const party   = document.getElementById('cand-party').value.trim();
+  const name    = document.getElementById('cand-name').value.trim();
+  const discord = document.getElementById('cand-discord').value.trim();
+  const logo    = document.getElementById('cand-logo').value.trim();
+  const color   = document.getElementById('cand-color').value;
+  if (!party || !name || !discord){ alert('Rellena nombre del partido, candidato y discord'); return; }
+
+  const np = {
+    id       : party.toLowerCase().replace(/\s+/g,'_') + '_' + Date.now(),
+    name     : party,
+    candidate: name,
+    discord,
+    logo,
+    color
+  };
+
+  try {
+    const r = await apiFetch('/api/admin/parties', {
+      method : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body   : JSON.stringify(np)
+    });
+    if (r.ok){
+      S.parties.push(np);
+      renderAdminCandidates();
+      ['cand-party','cand-name','cand-discord','cand-logo'].forEach(id => document.getElementById(id).value = '');
+    } else {
+      alert('Error al guardar partido en backend');
+    }
+  } catch(e) {
+    alert('No se pudo conectar: ' + e.message);
+  }
 }
 
 async function removeParty(id){
-  if(!confirm('¿Eliminar este partido?')) return;
-  S.parties=S.parties.filter(p=>p.id!==id);
-  localStorage.setItem('sb_parties',JSON.stringify(S.parties));
+  if (!confirm('¿Eliminar este partido?')) return;
+  try {
+    await apiFetch(`/api/admin/parties/${id}`, { method: 'DELETE' });
+  } catch(e) {}
+  S.parties = S.parties.filter(p => p.id !== id);
   renderAdminCandidates();
-  try{ await fetch(`${API_BASE}/admin/parties/${id}`,{method:'DELETE'}); }catch(e){}
 }
 
 function renderAdminCandidates(){
-  document.getElementById('candidates-list-admin').innerHTML=`
+  document.getElementById('candidates-list-admin').innerHTML = `
     <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--gold-dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.8rem">Partidos registrados (${S.parties.length})</div>
     <div style="display:flex;flex-direction:column;gap:.5rem">
-      ${S.parties.map(p=>`
+      ${S.parties.map(p => `
         <div style="display:flex;align-items:center;gap:1rem;padding:.7rem 1rem;background:rgba(200,168,75,.04);border:1px solid rgba(200,168,75,.1)">
           <img src="${p.logo}" style="height:32px;object-fit:contain;flex-shrink:0" onerror="this.style.display='none'" alt="" />
           <div style="flex:1;min-width:0">
@@ -944,31 +998,40 @@ function renderAdminCandidates(){
 }
 
 function renderVoters(){
-  const list=S.voters.length?S.voters:JSON.parse(localStorage.getItem('sb_voters')||'[]');
-  document.getElementById('voters-tbody').innerHTML=list.length===0
-    ?'<tr><td colspan="4" style="text-align:center;color:var(--gray);padding:1.5rem">No hay votantes registrados</td></tr>'
-    :list.map(v=>`<tr>
-        <td>@${v.discordUsername||'—'}</td>
-        <td>${v.nombre||''} ${v.apellidos||''}</td>
-        <td style="color:var(--gold)">${v.partyName||v.partyId||'—'}</td>
-        <td style="font-size:.75rem;color:var(--gray)">${v.date?new Date(v.date).toLocaleString('es-ES'):'—'}</td>
+  const list = S.voters;
+  document.getElementById('voters-tbody').innerHTML = list.length === 0
+    ? '<tr><td colspan="4" style="text-align:center;color:var(--gray);padding:1.5rem">No hay votantes registrados</td></tr>'
+    : list.map(v => `<tr>
+        <td>@${v.discordUsername || '—'}</td>
+        <td>${v.nombre || ''} ${v.apellidos || ''}</td>
+        <td style="color:var(--gold)">${v.partyName || v.partyId || '—'}</td>
+        <td style="font-size:.75rem;color:var(--gray)">${v.date ? new Date(v.date).toLocaleString('es-ES') : '—'}</td>
       </tr>`).join('');
 }
 
 function exportVoters(){
-  const list=S.voters.length?S.voters:JSON.parse(localStorage.getItem('sb_voters')||'[]');
-  const csv=['Discord,Nombre,Apellidos,Partido,Fecha',...list.map(v=>[v.discordUsername,v.nombre,v.apellidos,v.partyName,v.date].map(x=>`"${x||''}"`).join(','))].join('\n');
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
-  a.download=`votantes_${new Date().toISOString().slice(0,10)}.csv`;
+  const list = S.voters;
+  const csv  = [
+    'Discord,Nombre,Apellidos,Partido,Fecha',
+    ...list.map(v => [v.discordUsername, v.nombre, v.apellidos, v.partyName, v.date]
+      .map(x => `"${x || ''}"`)
+      .join(','))
+  ].join('\n');
+  const a = document.createElement('a');
+  a.href     = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+  a.download = `votantes_${new Date().toISOString().slice(0,10)}.csv`;
   a.click();
 }
 
-// ══════════════════════
-// CLICK OUTSIDE
-// ══════════════════════
-document.getElementById('admin-overlay').addEventListener('click',function(e){ if(e.target===this) closeAdmin(); });
-document.getElementById('modal-confirm').addEventListener('click',function(e){ if(e.target===this) closeConfirm(); });
+// ═══════════════════════════════════════════════════
+// CERRAR CON CLICK FUERA
+// ═══════════════════════════════════════════════════
+document.getElementById('admin-overlay').addEventListener('click', function(e){
+  if (e.target === this) closeAdmin();
+});
+document.getElementById('modal-confirm').addEventListener('click', function(e){
+  if (e.target === this) closeConfirm();
+});
 </script>
 </body>
 </html>
