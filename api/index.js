@@ -37,7 +37,7 @@ app.post('/api/auth/discord', async (req, res) => {
   const { code, redirect_uri } = req.body;
   if (!code || !redirect_uri) return res.status(400).json({ error: 'Missing params' });
   try {
-    const { default: fetch } = await import('node-fetch');
+    const fetch = globalThis.fetch;
     const tokenRes = await fetch('https://discord.com/api/oauth2/token', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
